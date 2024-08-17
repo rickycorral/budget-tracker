@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFrog } from "@fortawesome/free-solid-svg-icons";
 
 interface IncomeCardProps {
   totalIncome: number;
@@ -12,24 +14,28 @@ const IncomeCard: React.FC<IncomeCardProps> = ({
   incomeInput,
   setIncomeInput,
   handleAddIncome,
-}) => (
-  <div className="bg-green-100 p-4 rounded-lg shadow">
-    <h3 className="text-sm font-medium">Total Income</h3>
-    <p className="text-2xl font-bold">${totalIncome.toFixed(2)}</p>
-    <input
-      type="number"
-      value={incomeInput}
-      onChange={(e) => setIncomeInput(e.target.value)}
-      className="mt-2 p-1 border rounded w-full"
-      placeholder="Enter income"
-    />
-    <button
-      onClick={handleAddIncome}
-      className="mt-2 text-white bg-green-500 px-2 py-1 rounded w-full"
-    >
-      Add Income
-    </button>
-  </div>
-);
+}) => {
+  return (
+    <div className="bg-green-400 p-4 rounded-lg shadow">
+      <h3 className="text-md font-semibold">
+        Ingresos Totales <FontAwesomeIcon icon={faFrog} />
+      </h3>
+      <p className="text-3xl font-bold">${totalIncome.toFixed(2)}</p>
+      <input
+        type="number"
+        value={incomeInput}
+        onChange={(e) => setIncomeInput(e.target.value)}
+        className="mt-2 p-2 border rounded w-full text-lg"
+        placeholder="Ingrese ingresos"
+      />
+      <button
+        onClick={handleAddIncome}
+        className="mt-2 text-white bg-green-600 px-3 py-2 rounded w-full text-sm font-medium"
+      >
+        Agregar Ingresos
+      </button>
+    </div>
+  );
+};
 
 export default IncomeCard;
