@@ -8,3 +8,52 @@
     min-height: 100vh; /* Ensure it covers the entire view height */
   }
   
+  /* Dashboard.css */
+
+/* General mobile styles */
+@media (max-width: 767px) {
+    .dashboard-bg {
+      padding: 10px; /* Reduce padding on smaller screens */
+    }
+  
+    .grid-cols-2 {
+      grid-template-columns: 1fr; /* Stack columns on mobile */
+    }
+  
+    .grid-cols-3 {
+      grid-template-columns: 1fr; /* Stack columns on mobile */
+    }
+  
+    .flex {
+      flex-direction: column; /* Stack flex items vertically */
+    }
+  
+    .graph-container {
+      width: 100%; /* Make graph container full width */
+      margin: 0 auto; /* Center graph */
+    }
+  
+    .card {
+      margin-bottom: 20px; /* Add spacing between stacked cards */
+    }
+  }
+  
+  /* Dashboard.css */
+
+button, input[type="number"], input[type="text"], select {
+    padding: 10px; /* Increase padding for better touch interaction */
+    font-size: 16px; /* Ensure text is readable on smaller screens */
+  }
+  
+  /* Adjust card margins and padding on mobile */
+  @media (max-width: 767px) {
+    .card {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+  
+    h3, p {
+      font-size: 16px; /* Ensure headers and text are readable */
+    }
+  }
+  
