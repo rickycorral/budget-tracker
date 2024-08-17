@@ -1,0 +1,10 @@
+/* Dashboard.css */
+
+.dashboard-bg {
+    background-image: url('./frog.webp'); /* Path to your saved image */
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #e3f8da; /* Fallback color */
+    min-height: 100vh; /* Ensure it covers the entire view height */
+  }
+  
