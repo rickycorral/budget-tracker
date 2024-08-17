@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ExpenseCategory } from './Dashboard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFrog } from '@fortawesome/free-solid-svg-icons';
 
-const ExpenseCard: React.FC<{
+interface ExpenseCardProps {
   totalExpenses: number;
   expenseInput: string;
   descriptionInput: string;
@@ -15,7 +17,9 @@ const ExpenseCard: React.FC<{
   editingExpense: number | null;
   handleSaveEditedExpense: () => void;
   expenseCategories: ExpenseCategory[];
-}> = ({
+}
+
+const ExpenseCard: React.FC<ExpenseCardProps> = ({
   totalExpenses,
   expenseInput,
   descriptionInput,
@@ -30,10 +34,20 @@ const ExpenseCard: React.FC<{
   handleSaveEditedExpense,
   expenseCategories,
 }) => {
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = `${today.getDate()}/${
+      today.toLocaleString('default', { month: 'short' })
+    }/${today.getFullYear()}`;
+    setDateInput(formattedDate);
+  }, [setDateInput]);
+
   return (
     <div className="expense-card">
-      <h3>Gastos Totales: {totalExpenses}</h3>
-      <div>
+      <h3 className="expense-card-header">
+        Gastos Totales <FontAwesomeIcon icon={faFrog} />: {totalExpenses}
+      </h3>
+      <div className="form-row">
         <label>Categoría:</label>
         <select
           value={selectedCategory}
@@ -49,7 +63,7 @@ const ExpenseCard: React.FC<{
           ))}
         </select>
       </div>
-      <div>
+      <div className="form-row">
         <label>Gasto:</label>
         <input
           type="number"
@@ -58,7 +72,7 @@ const ExpenseCard: React.FC<{
           placeholder="Ingresa el gasto"
         />
       </div>
-      <div>
+      <div className="form-row">
         <label>Descripción:</label>
         <input
           type="text"
@@ -67,16 +81,19 @@ const ExpenseCard: React.FC<{
           placeholder="Descripción"
         />
       </div>
-      <div>
+      <div className="form-row">
         <label>Fecha:</label>
         <input
-          type="date"
+          type="text"
           value={dateInput}
           onChange={(e) => setDateInput(e.target.value)}
+          placeholder="Fecha"
+          disabled
         />
       </div>
       <button
         onClick={editingExpense !== null ? handleSaveEditedExpense : handleAddExpense}
+        className="expense-card-button"
       >
         {editingExpense !== null ? "Guardar Gasto" : "Agregar Gasto"}
       </button>
