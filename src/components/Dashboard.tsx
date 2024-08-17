@@ -4,7 +4,7 @@ import IncomeCard from "./IncomeCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
 import ExpenseChart from "./ExpenseChart";
-import '../Dashboard.css'; 
+import "../Dashboard.css";
 
 export interface ExpenseCategory {
   name: string;
@@ -22,19 +22,23 @@ const Dashboard: React.FC = () => {
   const [expenseInput, setExpenseInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [dateInput, setDateInput] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Selecciona la Categoría");
+  const [selectedCategory, setSelectedCategory] = useState(
+    "Selecciona la Categoría"
+  );
   const [editingExpense, setEditingExpense] = useState<number | null>(null);
 
-  const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>([
-    { name: "Renta", budget: null, expenses: [] },
-    { name: "Alimentos", budget: null, expenses: [] },
-    { name: "Transporte", budget: null, expenses: [] },
-    { name: "Servicios", budget: null, expenses: [] },
-    { name: "Entretenimiento", budget: null, expenses: [] },
-    { name: "Medicinas", budget: null, expenses: [] },
-    { name: "Escuela", budget: null, expenses: [] },
-    { name: "Ahorros", budget: null, expenses: [] },
-  ]);
+  const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
+    [
+      { name: "Renta", budget: null, expenses: [] },
+      { name: "Alimentos", budget: null, expenses: [] },
+      { name: "Transporte", budget: null, expenses: [] },
+      { name: "Servicios", budget: null, expenses: [] },
+      { name: "Entretenimiento", budget: null, expenses: [] },
+      { name: "Medicinas", budget: null, expenses: [] },
+      { name: "Escuela", budget: null, expenses: [] },
+      { name: "Ahorros", budget: null, expenses: [] },
+    ]
+  );
 
   const handleAddIncome = () => {
     const incomeValue = parseFloat(incomeInput);
@@ -59,7 +63,11 @@ const Dashboard: React.FC = () => {
           ...category,
           expenses: [
             ...category.expenses,
-            { amount: expenseValue, description: descriptionInput, date: dateInput || new Date().toLocaleDateString() },
+            {
+              amount: expenseValue,
+              description: descriptionInput,
+              date: dateInput || new Date().toLocaleDateString(),
+            },
           ],
         };
       }
@@ -97,7 +105,11 @@ const Dashboard: React.FC = () => {
           ...category,
           expenses: category.expenses.map((expense, idx) =>
             idx === 0
-              ? { amount: parseFloat(expenseInput), description: descriptionInput, date: dateInput }
+              ? {
+                  amount: parseFloat(expenseInput),
+                  description: descriptionInput,
+                  date: dateInput,
+                }
               : expense
           ),
         };
@@ -106,7 +118,9 @@ const Dashboard: React.FC = () => {
     });
 
     const updatedTotalExpenses = updatedCategories.reduce(
-      (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+      (total, category) =>
+        total +
+        category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
       0
     );
 
@@ -127,7 +141,9 @@ const Dashboard: React.FC = () => {
     });
 
     const updatedTotalExpenses = updatedCategories.reduce(
-      (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+      (total, category) =>
+        total +
+        category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
       0
     );
 
@@ -135,7 +151,10 @@ const Dashboard: React.FC = () => {
     setTotalExpenses(updatedTotalExpenses);
   };
 
-  const calculatePercentage = (amount: number, budget: number | null): number => {
+  const calculatePercentage = (
+    amount: number,
+    budget: number | null
+  ): number => {
     return budget && budget > 0 ? (amount / budget) * 100 : 0;
   };
 
@@ -150,13 +169,17 @@ const Dashboard: React.FC = () => {
           setMonthlyBudget={setMonthlyBudget}
           setIsEditingBudget={setIsEditingBudget}
         />
-        <IncomeCard
-          totalIncome={totalIncome}
-          incomeInput={incomeInput}
-          setIncomeInput={setIncomeInput}
-          handleAddIncome={handleAddIncome}
-        />
+        {/* Hide Ingresos Totales Card */}
+        {false && (
+          <IncomeCard
+            totalIncome={totalIncome}
+            incomeInput={incomeInput}
+            setIncomeInput={setIncomeInput}
+            handleAddIncome={handleAddIncome}
+          />
+        )}
       </div>
+
       <div className="flex justify-between items-start gap-4">
         <ExpenseCard
           totalExpenses={totalExpenses}
@@ -176,10 +199,15 @@ const Dashboard: React.FC = () => {
         <div className="graph-section">
           <h2 className="text-lg font-semibold">Distribución de Gastos</h2>
           <div className="graph-container">
-            <ExpenseChart categories={expenseCategories.map((category) => ({
-              name: category.name,
-              amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-            }))} />
+            <ExpenseChart
+              categories={expenseCategories.map((category) => ({
+                name: category.name,
+                amount: category.expenses.reduce(
+                  (sum, expense) => sum + expense.amount,
+                  0
+                ),
+              }))}
+            />
           </div>
         </div>
       </div>
@@ -190,9 +218,13 @@ const Dashboard: React.FC = () => {
             category={category}
             handleEditExpense={() => handleEditExpense(index)}
             handleDeleteExpense={() => handleDeleteExpense(index)}
-            calculatePercentage={(amount, budget) => calculatePercentage(amount, budget)}
+            calculatePercentage={(amount, budget) =>
+              calculatePercentage(amount, budget)
+            }
             alertThreshold={80}
-            handleSetBudget={(budgetValue) => handleSetBudget(index, budgetValue)}
+            handleSetBudget={(budgetValue) =>
+              handleSetBudget(index, budgetValue)
+            }
             cardColor="bg-green-200"
           />
         ))}
