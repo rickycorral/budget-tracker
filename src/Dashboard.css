@@ -84,6 +84,7 @@ button:hover {
 @media (max-width: 767px) {
     .dashboard-bg {
         padding: 10px; /* Reduce padding on smaller screens */
+        background-size: contain; /* Ensure the background scales properly on mobile */
     }
 
     .grid-cols-2, .grid-cols-3 {
