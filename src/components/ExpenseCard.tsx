@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ExpenseCategory } from './Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFrog } from '@fortawesome/free-solid-svg-icons';
@@ -36,11 +36,24 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
 }) => {
   useEffect(() => {
     const today = new Date();
-    const formattedDate = `${today.getDate()}/${
-      today.toLocaleString('default', { month: 'short' })
-    }/${today.getFullYear()}`;
-    setDateInput(formattedDate);
+    const formatted = formatToDDMMYYYY(today);
+    setDateInput(today.toISOString().split('T')[0]); // Set the date input field to YYYY-MM-DD for HTML date input
   }, [setDateInput]);
+
+  const formatToDDMMYYYY = (date: Date) => {
+    return `${date.getDate()}/${
+      date.toLocaleString('default', { month: 'short' })
+    }/${date.getFullYear()}`;
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateValue = e.target.value;
+    if (dateValue) {
+      const date = new Date(dateValue);
+      const formatted = formatToDDMMYYYY(date);
+      setDateInput(dateValue); // Store the raw date value in YYYY-MM-DD format
+    }
+  };
 
   return (
     <div className="expense-card">
@@ -81,15 +94,15 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
           placeholder="Descripción"
         />
       </div>
-      <div className="form-row">
+      <div className="form-row date-input-container">
         <label>Fecha:</label>
         <input
-          type="text"
-          value={dateInput}
-          onChange={(e) => setDateInput(e.target.value)}
-          placeholder="Fecha"
-          disabled
+          type="date"
+          value={dateInput} 
+          onChange={handleDateChange}
+          className="date-input"
         />
+        {/* Remove the display of today's date */}
       </div>
       <button
         onClick={editingExpense !== null ? handleSaveEditedExpense : handleAddExpense}

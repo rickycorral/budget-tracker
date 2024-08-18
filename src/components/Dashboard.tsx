@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BudgetCard from "./BudgetCard";
-import IncomeCard from "./IncomeCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
 import ExpenseChart from "./ExpenseChart";
@@ -40,15 +39,13 @@ const Dashboard: React.FC = () => {
     ]
   );
 
-  const handleAddIncome = () => {
-    const incomeValue = parseFloat(incomeInput);
-    if (isNaN(incomeValue) || incomeValue <= 0) {
-      alert("Por favor ingrese un monto de ingresos válido y positivo.");
-      return;
-    }
-    setTotalIncome(totalIncome + incomeValue);
-    setIncomeInput("");
-  };
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = `${today.getDate()}/${
+      today.toLocaleString('default', { month: 'short' })
+    }/${today.getFullYear()}`;
+    setDateInput(formattedDate);
+  }, []);
 
   const handleAddExpense = () => {
     const expenseValue = parseFloat(expenseInput);
@@ -78,7 +75,7 @@ const Dashboard: React.FC = () => {
     setExpenseCategories(updatedCategories);
     setExpenseInput("");
     setDescriptionInput("");
-    setDateInput("");
+    setDateInput(""); // Clear the date input after adding an expense
   };
 
   const handleSetBudget = (index: number, budgetValue: number) => {
@@ -129,7 +126,7 @@ const Dashboard: React.FC = () => {
     setEditingExpense(null);
     setExpenseInput("");
     setDescriptionInput("");
-    setDateInput("");
+    setDateInput(""); // Clear the date input after saving an edited expense
   };
 
   const handleDeleteExpense = (index: number) => {
@@ -169,18 +166,9 @@ const Dashboard: React.FC = () => {
           setMonthlyBudget={setMonthlyBudget}
           setIsEditingBudget={setIsEditingBudget}
         />
-        {/* Hide Ingresos Totales Card */}
-        {false && (
-          <IncomeCard
-            totalIncome={totalIncome}
-            incomeInput={incomeInput}
-            setIncomeInput={setIncomeInput}
-            handleAddIncome={handleAddIncome}
-          />
-        )}
       </div>
 
-      <div className="flex justify-between items-start gap-4">
+      <div className="graph-and-expenses-container">
         <ExpenseCard
           totalExpenses={totalExpenses}
           expenseInput={expenseInput}
@@ -196,20 +184,18 @@ const Dashboard: React.FC = () => {
           handleSaveEditedExpense={handleSaveEditedExpense}
           expenseCategories={expenseCategories}
         />
-        <div className="graph-section">
-          <h2 className="text-lg font-semibold">Distribución de Gastos</h2>
           <div className="graph-container">
-            <ExpenseChart
-              categories={expenseCategories.map((category) => ({
-                name: category.name,
-                amount: category.expenses.reduce(
-                  (sum, expense) => sum + expense.amount,
-                  0
-                ),
-              }))}
-            />
+            
+          <ExpenseChart
+      categories={expenseCategories.map((category) => ({
+        name: category.name,
+        amount: category.expenses.reduce(
+          (sum, expense) => sum + expense.amount,
+          0
+        ),
+      }))}
+    />
           </div>
-        </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
         {expenseCategories.map((category, index) => (

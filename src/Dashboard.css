@@ -1,151 +1,186 @@
-/* Dashboard.css */
-
-/* Set the frog-themed background with full coverage */
+/* Dashboard Background */
 .dashboard-bg {
-    background-image: url('./frog.webp'); /* Path to your saved image */
+    background-image: url("./frog.webp");
     background-repeat: repeat;
     background-size: cover;
-    background-color: #e3f8da; /* Fallback color */
-    min-height: 100vh; /* Ensure it covers the entire view height */
-    padding: 20px; /* Add some padding to the dashboard */
-}
-
-/* Ensure cards have a transparent background to showcase the theme */
-.card, .expense-card, .category-card {
-    background-color: rgba(157, 212, 135, 0.8); /* Transparent green background */
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-    color: #333; /* Ensure the text color contrasts well with the background */
-}
-
-/* Specific CategoryCards styling */
-.category-card {
-    background-color: rgba(157, 212, 135, 0.85) !important; /* Light green background with 85% opacity */
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-    text-align: center; /* Center the buttons within the card */
-}
-
-/* General text styling for headers and content */
-h3, p {
-    font-size: 18px; /* Larger font for headers and text */
-    color: #333; /* Standard text color */
-    font-weight: bold; /* Make the font bolder for better readability */
-}
-
-/* Button styling */
-button, input[type="number"], input[type="text"], select {
-    padding: 6px 10px; /* Adjust padding for buttons and inputs */
-    font-size: 14px; /* Slightly smaller font size */
-    font-weight: bold; /* Bold text for buttons */
-    border-radius: 5px; /* Rounded corners */
-    width: 35%; /* Auto width to adjust based on content */
-    text-align: center;
-    display: inline-block; /* Align buttons in a single row */
-    margin: 5px; /* Add some margin to separate buttons */
-}
-
-/* Ensure buttons are aligned properly */
-button + button {
-    margin-left: 10px; /* Add small margin between buttons */
-}
-
-/* Additional styling to ensure proper spacing */
-button {
-    margin-top: 10px; /* Top margin for buttons */
-}
-
-button:hover {
-    opacity: 0.8; /* Slightly reduce opacity on hover */
-}
-
-/* Graph section styling */
-.graph-section {
-    margin-top: 20px; /* Space between sections */
+    background-color: #e3f8da;
+    min-height: 100vh;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.85); /* Transparent white background */
+  }
+  
+  /* Card Styling */
+  .card,
+  .expense-card,
+  .category-card,
+  .expense-chart-card,
+  .budget-card {
+    background-color: rgba(157, 212, 135, 0.8);
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure the chart is centered */
-.graph-container {
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Specific CategoryCards Styling */
+  .category-card {
+    background-color: rgba(157, 212, 135, 0.85) !important;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Grid Layout for CategoryCards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  /* General Text Styling */
+  h3,
+  p {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Button and Input Field Styling */
+  button,
+  input[type="number"],
+  input[type="text"],
+  select {
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 35%;
+    text-align: center;
+    display: inline-block;
+    margin: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  button + button {
+    margin-left: 10px;
+  }
+  
+  /* Graph Section and Alignment */
+  .graph-section,
+  .expense-card {
+    flex: 1;
+    margin-bottom: 25px;
+    padding: 25px;
+  }
+  
+  .graph-and-expenses-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .graph-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-}
-
-/* Mobile-specific adjustments */
-@media (max-width: 767px) {
+    margin: 20px 0;
+    padding-top: 20px;
+    width: 100%;
+  }
+  
+  .graph-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  /* Mobile-specific Adjustments */
+  @media (max-width: 767px) {
     .dashboard-bg {
-        padding: 10px; /* Reduce padding on smaller screens */
-        background-size: contain; /* Ensure the background scales properly on mobile */
+      padding: 10px;
+      background-size: contain;
     }
-
-    .grid-cols-2, .grid-cols-3 {
-        grid-template-columns: 1fr; /* Stack columns on mobile */
+  
+    .grid-cols-2,
+    .grid-cols-3 {
+      grid-template-columns: 1fr 1fr;
     }
-
+  
     .flex {
-        flex-direction: column; /* Stack flex items vertically */
+      flex-direction: column;
+      align-items: center;
     }
-
-    .card, .expense-card, .category-card {
-        margin-bottom: 10px; /* Reduce bottom margin for smaller screens */
-        padding: 10px; /* Reduce padding for smaller screens */
+  
+    .card,
+    .expense-card,
+    .category-card,
+    .budget-card {
+      margin-bottom: 10px;
+      padding: 10px;
     }
-
-    h3, p {
-        font-size: 14px; /* Decrease font size for headers and text */
+  
+    h3,
+    p {
+      font-size: 14px;
     }
-
-    button, input[type="number"], input[type="text"], select {
-        width: 100%; /* Full width on mobile */
-        margin-top: 5px; /* Adjust spacing for buttons */
-        padding: 5px 8px; /* Reduce padding for buttons */
-        font-size: 12px; /* Smaller font size for buttons */
+  
+    button,
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      margin-top: 5px;
+      padding: 5px 8px;
+      font-size: 12px;
     }
-
+  
     button + button {
-        margin-left: 0; /* Remove left margin on mobile */
-        margin-top: 5px; /* Add top margin between stacked buttons */
+      margin-left: 0;
+      margin-top: 5px;
     }
-
-    .category-card button {
-        width: 100%; /* Full width buttons on mobile */
-        margin: 5px 0; /* Add vertical space between buttons */
+  
+    .graph-and-expenses-container {
+      flex-direction: column;
     }
-
-    .graph-section {
-        margin-top: 10px; /* Reduce margin-top for mobile */
-        padding: 15px; /* Reduce padding for mobile */
+  
+    .graph-section,
+    .expense-card,
+    .budget-card {
+      width: 100%;
+      margin-bottom: 10px;
     }
-
+  
     .graph-container {
-        margin-top: 10px; /* Reduce margin-top for mobile */
+      margin-top: 10px;
     }
-}
-
-/* ExpenseCard-specific styling */
-.expense-card .form-row {
+  }
+  
+  /* ExpenseCard-specific Styling */
+  .expense-card .form-row {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-}
-
-.expense-card .form-row label {
+  }
+  
+  .expense-card .form-row label {
     flex: 1;
     padding-right: 10px;
     font-weight: bold;
-}
-
-.expense-card .form-row input,
-.expense-card .form-row select {
+  }
+  
+  .expense-card .form-row input,
+  .expense-card .form-row select {
     flex: 2;
     padding: 8px;
     border-radius: 5px;
@@ -153,30 +188,72 @@ button:hover {
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
-}
-
-.expense-card-header {
-    font-size: 24px; /* Increase the font size */
+  }
+  
+  .expense-card-header {
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 15px;
     text-align: center;
-    color: #333; /* Ensure it matches the theme */
-}
-
-.expense-card-button {
-    width: 100%; /* Full width for button */
+    color: #333;
+  }
+  
+  /* Date Input Container Styling */
+  .date-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .date-input {
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* BudgetCard-specific Styling */
+  .budget-card {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .budget-input {
     margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .budget-button {
+    margin-top: 15px;
     padding: 12px;
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #4CAF50; /* Green background */
+    background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
-    text-align: center;
-}
-
-.expense-card-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-}
+    width: 100%;
+  }
+  
+  .budget-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Flex and Spacing Adjustments */
+  .flex {
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .mt-4 {
+    margin-top: 20px;
+  }
+  

@@ -30,12 +30,12 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   };
 
   return (
-    <div className="bg-green-400 p-4 rounded-lg shadow">
+    <div className="budget-card">
       <h3 className="text-sm font-medium">
         Presupuesto Mensual <FontAwesomeIcon icon={faFrog} />
       </h3>
       <p className="text-2xl font-bold">
-        ${monthlyBudget ? monthlyBudget.toFixed(2) : "N/A"}
+        ${monthlyBudget ? monthlyBudget.toFixed(2) : "0.00 MXN"}
       </p>
       {isEditingBudget ? (
         <>
@@ -43,20 +43,17 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
             type="number"
             value={monthlyBudgetInput}
             onChange={(e) => setMonthlyBudgetInput(e.target.value)}
-            className="mt-2 p-1 border rounded w-full"
+            className="budget-input"
             placeholder="Ingrese el límite del presupuesto mensual"
           />
-          <button
-            onClick={handleSaveBudget}
-            className="mt-2 text-white bg-green-600 px-2 py-1 rounded w-full"
-          >
+          <button onClick={handleSaveBudget} className="budget-button">
             Guardar Presupuesto
           </button>
         </>
       ) : (
         <button
           onClick={() => setIsEditingBudget(true)}
-          className="mt-2 text-white bg-green-600 px-2 py-1 rounded w-full"
+          className="budget-button"
         >
           Establecer Presupuesto
         </button>
