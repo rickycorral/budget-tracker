@@ -4,6 +4,7 @@ import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
 import ExpenseChart from "./ExpenseChart";
 import "../Dashboard.css";
+import Header from "./Header"; // Importing the Header component
 
 export interface ExpenseCategory {
   name: string;
@@ -45,6 +46,7 @@ const Dashboard: React.FC = () => {
     0
   );
 
+  // Functions for handling expenses and budgets
   const handleAddExpense = () => {
     const expenseValue = parseFloat(expenseInput);
     if (isNaN(expenseValue) || expenseValue <= 0) {
@@ -134,64 +136,67 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <section className="dashboard-bg mt-4 p-4 rounded-lg shadow">
-      <div className="flex justify-between items-start gap-4">
-        <BudgetCard
-          isEditingBudget={isEditingBudget}
-          monthlyBudget={monthlyBudget}
-          monthlyBudgetInput={monthlyBudgetInput}
-          setMonthlyBudgetInput={setMonthlyBudgetInput}
-          setMonthlyBudget={setMonthlyBudget}
-          setIsEditingBudget={setIsEditingBudget}
-        />
-      </div>
+    <>
+      <Header /> {/* Render the Header component at the top */}
+      <section className="dashboard-bg p-4 rounded-lg shadow mt-0"> {/* Removed the margin-top */}
+        <div className="flex justify-between items-start gap-4">
+          <BudgetCard
+            isEditingBudget={isEditingBudget}
+            monthlyBudget={monthlyBudget}
+            monthlyBudgetInput={monthlyBudgetInput}
+            setMonthlyBudgetInput={setMonthlyBudgetInput}
+            setMonthlyBudget={setMonthlyBudget}
+            setIsEditingBudget={setIsEditingBudget}
+          />
+        </div>
 
-      <div className="graph-and-expenses-container">
-        <ExpenseCard
-          totalExpenses={totalExpenses}
-          expenseInput={expenseInput}
-          descriptionInput={descriptionInput}
-          dateInput={dateInput}
-          selectedCategory={selectedCategory}
-          setExpenseInput={setExpenseInput}
-          setDescriptionInput={setDescriptionInput}
-          setDateInput={setDateInput}
-          setSelectedCategory={setSelectedCategory}
-          handleAddExpense={handleAddExpense}
-          editingExpense={editingExpense}
-          handleSaveEditedExpense={handleSaveEditedExpense}
-          expenseCategories={expenseCategories}
-        />
-        <div className="graph-section">
-          <div className="graph-container">
-            <ExpenseChart
-              categories={expenseCategories.map((category) => ({
-                name: category.name,
-                amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-              }))}
-            />
+        <div className="graph-and-expenses-container">
+          <ExpenseCard
+            totalExpenses={totalExpenses}
+            expenseInput={expenseInput}
+            descriptionInput={descriptionInput}
+            dateInput={dateInput}
+            selectedCategory={selectedCategory}
+            setExpenseInput={setExpenseInput}
+            setDescriptionInput={setDescriptionInput}
+            setDateInput={setDateInput}
+            setSelectedCategory={setSelectedCategory}
+            handleAddExpense={handleAddExpense}
+            editingExpense={editingExpense}
+            handleSaveEditedExpense={handleSaveEditedExpense}
+            expenseCategories={expenseCategories}
+          />
+          <div className="graph-section">
+            <div className="graph-container">
+              <ExpenseChart
+                categories={expenseCategories.map((category) => ({
+                  name: category.name,
+                  amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+                }))}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        {expenseCategories.map((category, index) => (
-          <CategoryCard
-            key={index}
-            category={category}
-            handleEditExpense={() => handleEditExpense(index)}
-            handleDeleteExpense={() => handleDeleteExpense(index)}
-            calculatePercentage={(amount, budget) =>
-              calculatePercentage(amount, budget)
-            }
-            alertThreshold={80}
-            handleSetBudget={(budgetValue) =>
-              handleSetBudget(index, budgetValue)
-            }
-            cardColor="bg-green-200"
-          />
-        ))}
-      </div>
-    </section>
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          {expenseCategories.map((category, index) => (
+            <CategoryCard
+              key={index}
+              category={category}
+              handleEditExpense={() => handleEditExpense(index)}
+              handleDeleteExpense={() => handleDeleteExpense(index)}
+              calculatePercentage={(amount, budget) =>
+                calculatePercentage(amount, budget)
+              }
+              alertThreshold={80}
+              handleSetBudget={(budgetValue) =>
+                handleSetBudget(index, budgetValue)
+              }
+              cardColor="bg-green-200"
+            />
+          ))}
+        </div>
+      </section>
+    </>
   );
 };
 
