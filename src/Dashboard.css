@@ -37,6 +37,8 @@
   align-items: center;
   font-size: 1.2rem; /* Larger font size */
   font-weight: bold; /* Bold font */
+  padding-top: 15px; /* Adjust this value to control the top padding */
+  margin-bottom: 10px; /* Add margin at the bottom for spacing */
 }
 
 .category-card-actions {
@@ -53,7 +55,7 @@
 }
 
 .category-card-percentage {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .category-card-percentage-text,
@@ -352,14 +354,14 @@ button + button {
 }
 
 .budget-text {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   color: #000000; /* Text color */
   margin-right: 1px;
   animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation to the text */
 }
 
 .arrow-icon {
-  font-size: 1.25rem; /* Adjust the size if needed */
+  font-size: 1.2rem; /* Adjust the size if needed */
   color: #000000; /* Black color for the arrow icon */
   animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation */
 }
