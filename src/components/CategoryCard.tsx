@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFrog, faHouseUser, faUtensils, faCar, faLightbulb, faFilm, faPills, faSchool, faPiggyBank, faEdit, faTrashAlt, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faEdit, faTrashAlt, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 interface ExpenseCategory {
   name: string;
@@ -27,6 +27,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   handleSetBudget,
   cardColor,
 }) => {
+  const [arrowVisible, setArrowVisible] = useState(true); // State to control arrow and text visibility
+
   const totalExpense = category.expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const percentageSpent = calculatePercentage(totalExpense, category.budget);
 
@@ -40,41 +42,32 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     }
   };
 
-  const getCategoryIcon = () => {
-    switch (category.name) {
-      case "Renta":
-        return faHouseUser; // House icon for Renta
-      case "Alimentos":
-        return faUtensils; // Food icon for Alimentos
-      case "Transporte":
-        return faCar; // Car icon for Transporte
-      case "Servicios":
-        return faLightbulb; // Lightbulb icon for Servicios
-      case "Entretenimiento":
-        return faFilm; // Film icon for Entretenimiento
-      case "Medicinas":
-        return faPills; // Pills icon for Medicinas
-      case "Escuela":
-        return faSchool; // School icon for Escuela
-      case "Ahorros":
-        return faPiggyBank; // Piggy bank icon for Ahorros
-      default:
-        return faFrog; // Default frog icon (just in case)
-    }
+  const handleWalletClick = () => {
+    setArrowVisible(false); // Hide the arrow and text when the wallet button is clicked
+    handleSetBudget(Number(prompt("Nuevo presupuesto:"))); // Prompt for a new budget
   };
 
   return (
     <div className={`category-card ${cardColor}`}>
       <div className="category-card-header">
         <h3>
-          {category.name} <FontAwesomeIcon icon={getCategoryIcon()} />
+          {category.name} {/* Category Name */}
         </h3>
         <div className="category-card-actions">
+          {arrowVisible && (
+            <>
+              <span className="budget-text">Ingresa tu Presupuesto</span>
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className="action-icon arrow-icon" /* Adding the arrow-icon class */
+              />
+            </>
+          )}
           <FontAwesomeIcon
             icon={faWallet}
             title="Editar Presupuesto"
             className="action-icon"
-            onClick={() => handleSetBudget(Number(prompt("Nuevo presupuesto:")))}
+            onClick={handleWalletClick} // Handle the wallet click
           />
           {category.expenses.length > 0 && (
             <>

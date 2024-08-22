@@ -342,3 +342,25 @@ button + button {
     order: 2; /* Ensure chart remains in the right order on smaller screens */
   }
 }
+@keyframes arrow-wiggle {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px); /* Move the arrow slightly to the right */
+  }
+}
+
+.budget-text {
+  font-size: 0.8rem;
+  color: #000000; /* Text color */
+  margin-right: 1px;
+  animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation to the text */
+}
+
+.arrow-icon {
+  font-size: 1.25rem; /* Adjust the size if needed */
+  color: #000000; /* Black color for the arrow icon */
+  animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation */
+}
+
