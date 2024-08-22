@@ -1,291 +1,344 @@
 /* Dashboard Background */
 .dashboard-bg {
-    background-image: url("./frog.webp");
-    background-repeat: repeat;
-    background-size: cover;
-    background-color: #e3f8da;
-    min-height: 100vh;
-    padding: 20px;
+  background-image: url("./frog.webp");
+  background-repeat: repeat;
+  background-size: cover;
+  background-color: #e3f8da;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* General Card Styling */
+.card,
+.expense-card,
+.category-card,
+.expense-chart-card,
+.budget-card {
+  background-color: rgba(157, 212, 135, 0.8);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* CategoryCard Styling */
+.category-card {
+  background-color: rgba(157, 212, 135, 0.85) !important;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  position: relative;
+}
+
+.category-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem; /* Larger font size */
+  font-weight: bold; /* Bold font */
+}
+
+.category-card-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.category-card-details {
+  text-align: left; /* Align text to the left */
+  margin-top: 10px;
+}
+
+.category-card-percentage {
+  margin-top: 15px;
+}
+
+.category-card-percentage-text,
+.category-card-total,
+.text-sm {
+  margin: 0; /* Remove any default margin */
+  font-size: 1rem; /* Adjusted font size for better readability */
+}
+
+.category-card-alert {
+  color: red;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #000000;
+  transition: color 0.2s ease-in-out;
+}
+
+.action-icon:hover {
+  color: #ff0000;
+}
+
+/* ExpenseCard Styling */
+.expense-card .form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.expense-card .form-row label {
+  flex: 1;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.expense-card .form-row input,
+.expense-card .form-row select {
+  flex: 2;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #333;
+  background-color: white;
+}
+
+.expense-card input[type="date"] {
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.expense-card select {
+  width: 100%;
+}
+
+.expense-card-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+}
+
+.expense-card-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.expense-card-button:hover {
+  background-color: #45a049;
+}
+
+/* Graph and Chart Styling */
+.graph-section,
+.expense-card {
+  flex: 1;
+  margin-bottom: 25px;
+  padding: 25px;
+}
+
+.graph-and-expenses-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.graph-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  padding-top: 20px;
+  width: 100%;
+  height: 300px; /* Adjusted height to match ExpenseCard dimensions */
+}
+
+.graph-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Progress Bar Styling */
+.progress-bar-container {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 25px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-text {
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+/* BudgetCard Styling */
+.budget-card {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.budget-input {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 14px;
+}
+
+.budget-button {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.budget-button:hover {
+  background-color: #45a049;
+}
+
+/* Flex and Spacing Adjustments */
+.flex {
+  justify-content: center;
+  gap: 10px;
+}
+
+.mt-4 {
+  margin-top: 20px;
+}
+
+/* Button and Input Field Styling */
+button,
+input[type="number"],
+input[type="text"],
+select {
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block;
+  margin: 5px;
+}
+
+button {
+  margin-top: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button + button {
+  margin-left: 10px;
+}
+
+/* Mobile-specific Adjustments */
+@media (max-width: 767px) {
+  .dashboard-bg {
+    padding: 10px;
+    background-size: contain;
   }
-  
-  /* Card Styling */
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flex {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .card,
   .expense-card,
   .category-card,
-  .expense-chart-card,
   .budget-card {
-    background-color: rgba(157, 212, 135, 0.8);
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 25px;
-    color: #333;
+    margin-bottom: 10px;
+    padding: 10px;
   }
-  
-  /* Specific CategoryCards Styling */
-  .category-card {
-    background-color: rgba(157, 212, 135, 0.85) !important;
-    padding: 15px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-  
-  /* Grid Layout for CategoryCards */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  /* General Text Styling */
+
   h3,
   p {
-    font-size: 18px;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  /* ExpenseCard-specific Styling */
-  .expense-card .form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .expense-card .form-row label {
-    flex: 1;
-    padding-right: 10px;
-    font-weight: bold;
-  }
-  
-  .expense-card .form-row input,
-  .expense-card .form-row select {
-    flex: 2;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
     font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    color: #333; /* Ensure text is visible */
-    background-color: white; /* Ensure inputs have a white background */
   }
-  
-  .expense-card input[type="date"] {
-    text-align: center;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .expense-card select {
-    width: 100%; /* Ensure select has full width */
-  }
-  
-  .expense-card-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .expense-card-button {
-    width: 100%; /* Full width for button */
-    margin-top: 10px;
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #4caf50; /* Green background */
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .expense-card-button:hover {
-    background-color: #45a049; /* Darker green on hover */
-  }
-  
-  /* Date Input Container Styling */
-  .date-input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .date-input {
-    text-align: center;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Graph Section and Alignment */
-  .graph-section,
-  .expense-card {
-    flex: 1;
-    margin-bottom: 25px;
-    padding: 25px;
-  }
-  
-  .graph-and-expenses-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-  }
-  
-  .graph-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    padding-top: 20px;
-    width: 100%;
-  }
-  
-  .graph-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
-  
-  /* Button and Input Field Styling */
+
   button,
   input[type="number"],
   input[type="text"],
   select {
-    padding: 6px 10px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
-    text-align: center;
-    display: inline-block;
-    margin: 5px;
+    width: 100%;
+    margin-top: 5px;
+    padding: 5px 8px;
+    font-size: 12px;
   }
-  
-  button {
-    margin-top: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
+
   button + button {
-    margin-left: 10px;
+    margin-left: 0;
+    margin-top: 5px;
   }
-  
-  /* Mobile-specific Adjustments */
-  @media (max-width: 767px) {
-    .dashboard-bg {
-      padding: 10px;
-      background-size: contain;
-    }
-  
-    .grid-cols-2,
-    .grid-cols-3 {
-      grid-template-columns: 1fr 1fr;
-    }
-  
-    .flex {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .card,
-    .expense-card,
-    .category-card,
-    .budget-card {
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-  
-    h3,
-    p {
-      font-size: 14px;
-    }
-  
-    button,
-    input[type="number"],
-    input[type="text"],
-    select {
-      width: 100%;
-      margin-top: 5px;
-      padding: 5px 8px;
-      font-size: 12px;
-    }
-  
-    button + button {
-      margin-left: 0;
-      margin-top: 5px;
-    }
-  
-    .graph-and-expenses-container {
-      flex-direction: column;
-    }
-  
-    .graph-section,
-    .expense-card,
-    .budget-card {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  
-    .graph-container {
-      margin-top: 10px;
-    }
+
+  .graph-and-expenses-container {
+    flex-direction: column;
   }
-  
-  /* BudgetCard-specific Styling */
+
+  .graph-section,
+  .expense-card,
   .budget-card {
-    text-align: center;
-    margin-bottom: 20px;
+    width: 100%;
+    margin-bottom: 10px;
   }
-  
-  .budget-input {
+
+  .graph-container {
     margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-    font-size: 14px;
+    padding-top: 0;
+    order: 2; /* Ensure chart remains in the right order on smaller screens */
   }
-  
-  .budget-button {
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  .budget-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Flex and Spacing Adjustments */
-  .flex {
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .mt-4 {
-    margin-top: 20px;
-  }
-  
+}

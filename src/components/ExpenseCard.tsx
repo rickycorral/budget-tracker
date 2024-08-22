@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ExpenseCategory } from './Dashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFrog } from '@fortawesome/free-solid-svg-icons';
@@ -34,39 +34,27 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
   handleSaveEditedExpense,
   expenseCategories,
 }) => {
+
   useEffect(() => {
-    const today = new Date();
-    const formatted = formatToDDMMYYYY(today);
-    setDateInput(today.toISOString().split('T')[0]); // Set the date input field to YYYY-MM-DD for HTML date input
+    setDateInput(new Date().toISOString().split('T')[0]);
   }, [setDateInput]);
 
-  const formatToDDMMYYYY = (date: Date) => {
-    return `${date.getDate()}/${
-      date.toLocaleString('default', { month: 'short' })
-    }/${date.getFullYear()}`;
-  };
-
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const dateValue = e.target.value;
-    if (dateValue) {
-      const date = new Date(dateValue);
-      const formatted = formatToDDMMYYYY(date);
-      setDateInput(dateValue); // Store the raw date value in YYYY-MM-DD format
-    }
+    setDateInput(e.target.value);
   };
 
   return (
     <div className="expense-card">
       <h3 className="expense-card-header">
-        Gastos Totales <FontAwesomeIcon icon={faFrog} />: {totalExpenses}
+        Gastos Totales <FontAwesomeIcon icon={faFrog} />: ${totalExpenses.toFixed(2)}
       </h3>
       <div className="form-row">
         <label>Categoría:</label>
         <select
-          value={selectedCategory}
+          value={selectedCategory || ""}  //Ensure the placeholder is shown if no category is selected
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          <option value="" disabled>
+          <option value="">
             Selecciona la Categoría
           </option>
           {expenseCategories.map((category) => (
@@ -98,11 +86,10 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
         <label>Fecha:</label>
         <input
           type="date"
-          value={dateInput} 
+          value={dateInput}
           onChange={handleDateChange}
           className="date-input"
         />
-        {/* Remove the display of today's date */}
       </div>
       <button
         onClick={editingExpense !== null ? handleSaveEditedExpense : handleAddExpense}
@@ -114,4 +101,4 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
   );
 };
 
-export default ExpenseCard;
+export default React.memo(ExpenseCard);

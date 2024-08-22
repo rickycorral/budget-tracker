@@ -18,17 +18,21 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
           "#00FF00", // Bright Lime Green
           "#32CD32", // Lime Green
           "#228B22", // Forest Green
-          "#006400", // Dark Green
-          "#7FFF00", // Chartreuse
-          "#ADFF2F", // Green Yellow
+          "#87CEEB", // Sky Blue
+          "#4169E1", // Royal Blue
+          "#DAA520", // Goldenrod
+          "#DC143C", // Crimson
+          "#FF4500", // Orange Red
         ],
         hoverBackgroundColor: [
-          "#00FF00", // Bright Lime Green
-          "#32CD32", // Lime Green
-          "#228B22", // Forest Green
-          "#006400", // Dark Green
-          "#7FFF00", // Chartreuse
-          "#ADFF2F", // Green Yellow
+          "#00FF00",
+          "#32CD32",
+          "#228B22",
+          "#87CEEB",
+          "#4169E1",
+          "#DAA520",
+          "#DC143C",
+          "#FF4500",
         ],
       },
     ],
@@ -38,38 +42,52 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
     plugins: {
       legend: {
         display: true,
-        position: "top" as const, // Position the legends above the chart
-        align: "center" as const, // Center the legends horizontally
+        position: "top" as const,
+        align: "center" as const,
         labels: {
           font: {
-            size: 12, // Small font size for the legends
-            weight: "bold" as const, // Use 'bold' as a recognized font weight
+            size: 14,
+            weight: "bold" as const,
           },
-          boxWidth: 20, // Small legend color boxes
-          padding: 10, // Padding around each legend item
-          color: "grey",
-          generateLabels: function (chart: any) {
-            const originalLabels = ChartJS.overrides.pie.plugins.legend.labels.generateLabels(chart);
-            return originalLabels.map((label) => ({
-              ...label,
-              text: ` ${label.text} `, // Adding space around text for padding
-              boxWidth: 20,
-              padding: 10,
-              color: "grey", // Font color
-              strokeStyle: "#F0F8FF", // Light green background for the labels
-            }));
+          boxWidth: 25,
+          padding: 20, // Increased padding for better spacing
+          color: "#333",
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: any) {
+            const label = tooltipItem.label || "";
+            const value = tooltipItem.raw || 0;
+            return `${label}: $${value.toFixed(2)}`;
           },
         },
       },
+      datalabels: {
+        display: true,
+        color: "white",
+        font: {
+          weight: "bold",
+        },
+        formatter: function (value: number, context: any) {
+          const total = context.chart.data.datasets[0].data.reduce(
+            (sum: number, data: number) => sum + data,
+            0
+          );
+          const percentage = ((value / total) * 100).toFixed(2);
+          return `${percentage}%`;
+        },
+      },
     },
-    maintainAspectRatio: false, // Allow manual size control
+    maintainAspectRatio: false,
     responsive: true,
+    aspectRatio: 1, // Maintain square aspect ratio
   };
 
   return (
     <div className="expense-chart-card">
       <div className="graph-container">
-        <Pie data={data} options={options} width={50} height={50} />
+        <Pie data={data} options={options} />
       </div>
     </div>
   );

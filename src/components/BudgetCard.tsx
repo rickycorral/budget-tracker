@@ -7,7 +7,7 @@ interface BudgetCardProps {
   monthlyBudget: number | null;
   monthlyBudgetInput: string;
   setMonthlyBudgetInput: (value: string) => void;
-  setMonthlyBudget: (value: number) => void;
+  setMonthlyBudget: (value: number | null) => void; // Allow null for the budget value
   setIsEditingBudget: (value: boolean) => void;
 }
 
@@ -23,10 +23,11 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
     const budgetValue = parseFloat(monthlyBudgetInput);
     if (!isNaN(budgetValue) && budgetValue > 0) {
       setMonthlyBudget(budgetValue);
-      setIsEditingBudget(false);
     } else {
+      setMonthlyBudget(null); // Set to null if invalid input
       alert("Por favor ingrese un presupuesto mensual válido.");
     }
+    setIsEditingBudget(false);
   };
 
   return (
@@ -35,7 +36,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
         Presupuesto Mensual <FontAwesomeIcon icon={faFrog} />
       </h3>
       <p className="text-2xl font-bold">
-        ${monthlyBudget ? monthlyBudget.toFixed(2) : "0.00 MXN"}
+        ${monthlyBudget !== null ? monthlyBudget.toFixed(2) : "0.00 MXN"}
       </p>
       {isEditingBudget ? (
         <>
@@ -62,4 +63,4 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   );
 };
 
-export default BudgetCard;
+export default React.memo(BudgetCard);

@@ -12,8 +12,7 @@ export interface ExpenseCategory {
 }
 
 const Dashboard: React.FC = () => {
-  const [totalIncome, setTotalIncome] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState(0);
+  // State variables
   const [monthlyBudget, setMonthlyBudget] = useState<number | null>(null);
   const [isEditingBudget, setIsEditingBudget] = useState(false);
   const [monthlyBudgetInput, setMonthlyBudgetInput] = useState("");
@@ -21,22 +20,29 @@ const Dashboard: React.FC = () => {
   const [expenseInput, setExpenseInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [dateInput, setDateInput] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(
-    "Selecciona la Categoría"
-  );
+  const [selectedCategory, setSelectedCategory] = useState("Selecciona la Categoría");
   const [editingExpense, setEditingExpense] = useState<number | null>(null);
 
-  const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
-    [
-      { name: "Renta", budget: null, expenses: [] },
-      { name: "Alimentos", budget: null, expenses: [] },
-      { name: "Transporte", budget: null, expenses: [] },
-      { name: "Servicios", budget: null, expenses: [] },
-      { name: "Entretenimiento", budget: null, expenses: [] },
-      { name: "Medicinas", budget: null, expenses: [] },
-      { name: "Escuela", budget: null, expenses: [] },
-      { name: "Ahorros", budget: null, expenses: [] },
-    ]
+  const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>([
+    { name: "Renta", budget: null, expenses: [] },
+    { name: "Alimentos", budget: null, expenses: [] },
+    { name: "Transporte", budget: null, expenses: [] },
+    { name: "Servicios", budget: null, expenses: [] },
+    { name: "Entretenimiento", budget: null, expenses: [] },
+    { name: "Medicinas", budget: null, expenses: [] },
+    { name: "Escuela", budget: null, expenses: [] },
+    { name: "Ahorros", budget: null, expenses: [] },
+  ]);
+
+  // Derived variables
+  const totalIncome = expenseCategories.reduce(
+    (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+    0
+  );
+  
+  const totalExpenses = expenseCategories.reduce(
+    (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+    0
   );
 
   const handleAddExpense = () => {
@@ -63,7 +69,6 @@ const Dashboard: React.FC = () => {
       return category;
     });
 
-    setTotalExpenses(totalExpenses + expenseValue);
     setExpenseCategories(updatedCategories);
     setExpenseInput("");
     setDescriptionInput("");
@@ -106,15 +111,7 @@ const Dashboard: React.FC = () => {
       return category;
     });
 
-    const updatedTotalExpenses = updatedCategories.reduce(
-      (total, category) =>
-        total +
-        category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-      0
-    );
-
     setExpenseCategories(updatedCategories);
-    setTotalExpenses(updatedTotalExpenses);
     setEditingExpense(null);
     setExpenseInput("");
     setDescriptionInput("");
@@ -129,21 +126,10 @@ const Dashboard: React.FC = () => {
       return category;
     });
 
-    const updatedTotalExpenses = updatedCategories.reduce(
-      (total, category) =>
-        total +
-        category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-      0
-    );
-
     setExpenseCategories(updatedCategories);
-    setTotalExpenses(updatedTotalExpenses);
   };
 
-  const calculatePercentage = (
-    amount: number,
-    budget: number | null
-  ): number => {
+  const calculatePercentage = (amount: number, budget: number | null): number => {
     return budget && budget > 0 ? (amount / budget) * 100 : 0;
   };
 
@@ -181,10 +167,7 @@ const Dashboard: React.FC = () => {
             <ExpenseChart
               categories={expenseCategories.map((category) => ({
                 name: category.name,
-                amount: category.expenses.reduce(
-                  (sum, expense) => sum + expense.amount,
-                  0
-                ),
+                amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
               }))}
             />
           </div>
@@ -211,4 +194,5 @@ const Dashboard: React.FC = () => {
     </section>
   );
 };
+
 export default Dashboard;

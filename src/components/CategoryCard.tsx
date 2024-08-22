@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFrog } from "@fortawesome/free-solid-svg-icons";
-import { ExpenseCategory } from "./Dashboard";
+import { faFrog, faHouseUser, faUtensils, faCar, faLightbulb, faFilm, faPills, faSchool, faPiggyBank, faEdit, faTrashAlt, faWallet } from "@fortawesome/free-solid-svg-icons";
+
+interface ExpenseCategory {
+  name: string;
+  budget: number | null;
+  expenses: { amount: number; description: string; date: string }[];
+}
 
 interface CategoryCardProps {
   category: ExpenseCategory;
@@ -22,87 +27,101 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   handleSetBudget,
   cardColor,
 }) => {
-  const [budgetInput, setBudgetInput] = useState<string>("");
-  const [isEditingBudget, setIsEditingBudget] = useState<boolean>(false);
+  const totalExpense = category.expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const percentageSpent = calculatePercentage(totalExpense, category.budget);
 
-  const handleBudgetSubmit = () => {
-    const budgetValue = parseFloat(budgetInput);
-    if (!isNaN(budgetValue) && budgetValue > 0) {
-      handleSetBudget(budgetValue);
-      setIsEditingBudget(true); // Switch to editing mode
+  const getGradientColor = (percentage: number) => {
+    if (percentage <= 50) {
+      return `linear-gradient(to right, darkgreen, yellow ${percentage * 2}%)`;
+    } else if (percentage <= 75) {
+      return `linear-gradient(to right, darkgreen, yellow 50%, orange ${percentage * 2 - 100}%)`;
+    } else {
+      return `linear-gradient(to right, darkgreen, yellow 50%, orange 75%, red ${percentage - 75}%)`;
     }
   };
 
-  const hasExpenses = category.expenses.length > 0;
+  const getCategoryIcon = () => {
+    switch (category.name) {
+      case "Renta":
+        return faHouseUser; // House icon for Renta
+      case "Alimentos":
+        return faUtensils; // Food icon for Alimentos
+      case "Transporte":
+        return faCar; // Car icon for Transporte
+      case "Servicios":
+        return faLightbulb; // Lightbulb icon for Servicios
+      case "Entretenimiento":
+        return faFilm; // Film icon for Entretenimiento
+      case "Medicinas":
+        return faPills; // Pills icon for Medicinas
+      case "Escuela":
+        return faSchool; // School icon for Escuela
+      case "Ahorros":
+        return faPiggyBank; // Piggy bank icon for Ahorros
+      default:
+        return faFrog; // Default frog icon (just in case)
+    }
+  };
 
   return (
     <div className={`category-card ${cardColor}`}>
-      <h3>
-        {category.name} <FontAwesomeIcon icon={faFrog} />
-      </h3>
-      <p className="category-card-total">
-        Total Gasto: ${category.expenses.reduce((sum, expense) => sum + expense.amount, 0).toFixed(2)}
-      </p>
-      {isEditingBudget ? (
-        <>
-          <p className="text-sm">
-            Presupuesto: ${category.budget?.toFixed(2)}
-          </p>
-          <button
-            onClick={() => setIsEditingBudget(false)}
-            className="text-white bg-blue-600"
-          >
-            Editar Presupuesto
-          </button>
-        </>
-      ) : (
-        <>
-          <input
-            type="number"
-            value={budgetInput}
-            onChange={(e) => setBudgetInput(e.target.value)}
-            className="mt-2 p-1 border rounded w-full text-sm"
-            placeholder="Establecer Presupuesto"
+      <div className="category-card-header">
+        <h3>
+          {category.name} <FontAwesomeIcon icon={getCategoryIcon()} />
+        </h3>
+        <div className="category-card-actions">
+          <FontAwesomeIcon
+            icon={faWallet}
+            title="Editar Presupuesto"
+            className="action-icon"
+            onClick={() => handleSetBudget(Number(prompt("Nuevo presupuesto:")))}
           />
-          <button
-            onClick={handleBudgetSubmit}
-            className="text-white bg-green-600"
-          >
-            {isEditingBudget ? "Editar Presupuesto" : "Establecer Presupuesto"}
-          </button>
-        </>
-      )}
-
-      {/* Conditionally render Editar Gasto and Eliminar Gasto buttons if there are expenses */}
-      {hasExpenses && (
-        <>
-          <button
-            onClick={handleEditExpense}
-            className="text-white bg-yellow-600"
-          >
-            Editar Gasto
-          </button>
-          <button
-            onClick={handleDeleteExpense}
-            className="text-white bg-red-600"
-          >
-            Eliminar Gasto
-          </button>
-        </>
-      )}
-
-      <div className="category-card-percentage">
-        <p className="category-card-percentage-text">
-          Porcentaje Gastado: {calculatePercentage(category.expenses.reduce((sum, expense) => sum + expense.amount, 0), category.budget).toFixed(2)}%
-        </p>
-        {calculatePercentage(category.expenses.reduce((sum, expense) => sum + expense.amount, 0), category.budget) > alertThreshold && (
-          <p className="category-card-alert">
-            ¡Advertencia: Ha superado el {alertThreshold}% de su presupuesto!
-          </p>
-        )}
+          {category.expenses.length > 0 && (
+            <>
+              <FontAwesomeIcon
+                icon={faEdit}
+                title="Editar Gasto"
+                className="action-icon"
+                onClick={handleEditExpense}
+              />
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                title="Eliminar Gasto"
+                className="action-icon"
+                onClick={handleDeleteExpense}
+              />
+            </>
+          )}
+        </div>
       </div>
+      <div className="category-card-details">
+        <p className="category-card-total">
+          Total Gasto: ${totalExpense.toFixed(2)}
+        </p>
+        <p className="text-sm">
+          Presupuesto: ${category.budget?.toFixed(2)}
+        </p>
+      </div>
+      <div className="progress-bar-container">
+        <div
+          className="progress-bar"
+          style={{
+            width: `${percentageSpent}%`,
+            background: getGradientColor(percentageSpent),
+          }}
+        >
+          <span className="progress-text">
+            {percentageSpent.toFixed(2)}% Gastado
+          </span>
+        </div>
+      </div>
+      {percentageSpent > alertThreshold && (
+        <p className="category-card-alert">
+          ¡Advertencia: Ha superado el {alertThreshold}% de su presupuesto!
+        </p>
+      )}
     </div>
   );
 };
 
-export default CategoryCard;
+export default React.memo(CategoryCard);
