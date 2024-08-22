@@ -45,35 +45,86 @@
     font-weight: bold;
   }
   
-  /* Button and Input Field Styling */
-  button,
-  input[type="number"],
-  input[type="text"],
-  select {
-    padding: 6px 10px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
-    width: 35%;
-    text-align: center;
-    display: inline-block;
-    margin: 5px;
+  /* ExpenseCard-specific Styling */
+  .expense-card .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
   
-  button {
+  .expense-card .form-row label {
+    flex: 1;
+    padding-right: 10px;
+    font-weight: bold;
+  }
+  
+  .expense-card .form-row input,
+  .expense-card .form-row select {
+    flex: 2;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #333; /* Ensure text is visible */
+    background-color: white; /* Ensure inputs have a white background */
+  }
+  
+  .expense-card input[type="date"] {
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .expense-card select {
+    width: 100%; /* Ensure select has full width */
+  }
+  
+  .expense-card-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .expense-card-button {
+    width: 100%; /* Full width for button */
     margin-top: 10px;
-    background-color: #4caf50;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4caf50; /* Green background */
     color: white;
     border: none;
     cursor: pointer;
   }
   
-  button:hover {
-    opacity: 0.8;
+  .expense-card-button:hover {
+    background-color: #45a049; /* Darker green on hover */
   }
   
-  button + button {
-    margin-left: 10px;
+  /* Date Input Container Styling */
+  .date-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .date-input {
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   /* Graph Section and Alignment */
@@ -103,6 +154,36 @@
   .graph-container canvas {
     width: 100% !important;
     height: 100% !important;
+  }
+  
+  /* Button and Input Field Styling */
+  button,
+  input[type="number"],
+  input[type="text"],
+  select {
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    margin: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  button + button {
+    margin-left: 10px;
   }
   
   /* Mobile-specific Adjustments */
@@ -164,55 +245,6 @@
     .graph-container {
       margin-top: 10px;
     }
-  }
-  
-  /* ExpenseCard-specific Styling */
-  .expense-card .form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .expense-card .form-row label {
-    flex: 1;
-    padding-right: 10px;
-    font-weight: bold;
-  }
-  
-  .expense-card .form-row input,
-  .expense-card .form-row select {
-    flex: 2;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .expense-card-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align: center;
-    color: #333;
-  }
-  
-  /* Date Input Container Styling */
-  .date-input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .date-input {
-    text-align: center;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
   }
   
   /* BudgetCard-specific Styling */

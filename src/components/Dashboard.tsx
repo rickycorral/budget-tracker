@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import BudgetCard from "./BudgetCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
@@ -38,14 +38,6 @@ const Dashboard: React.FC = () => {
       { name: "Ahorros", budget: null, expenses: [] },
     ]
   );
-
-  useEffect(() => {
-    const today = new Date();
-    const formattedDate = `${today.getDate()}/${
-      today.toLocaleString('default', { month: 'short' })
-    }/${today.getFullYear()}`;
-    setDateInput(formattedDate);
-  }, []);
 
   const handleAddExpense = () => {
     const expenseValue = parseFloat(expenseInput);
@@ -184,18 +176,19 @@ const Dashboard: React.FC = () => {
           handleSaveEditedExpense={handleSaveEditedExpense}
           expenseCategories={expenseCategories}
         />
+        <div className="graph-section">
           <div className="graph-container">
-            
-          <ExpenseChart
-      categories={expenseCategories.map((category) => ({
-        name: category.name,
-        amount: category.expenses.reduce(
-          (sum, expense) => sum + expense.amount,
-          0
-        ),
-      }))}
-    />
+            <ExpenseChart
+              categories={expenseCategories.map((category) => ({
+                name: category.name,
+                amount: category.expenses.reduce(
+                  (sum, expense) => sum + expense.amount,
+                  0
+                ),
+              }))}
+            />
           </div>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-4">
         {expenseCategories.map((category, index) => (
@@ -218,5 +211,4 @@ const Dashboard: React.FC = () => {
     </section>
   );
 };
-
 export default Dashboard;
