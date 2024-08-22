@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWallet, faEdit, faTrashAlt, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faEdit, faTrashAlt, faArrowRight, faHome, faCar, faUtensils, faBook, faCapsules, faPiggyBank, faBolt, faTv } from "@fortawesome/free-solid-svg-icons";
 
 interface ExpenseCategory {
   name: string;
@@ -47,10 +47,35 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     handleSetBudget(Number(prompt("Nuevo presupuesto:"))); // Prompt for a new budget
   };
 
+  // Function to determine which icon to display based on the category name
+  const getCategoryIcon = (name: string) => {
+    switch (name) {
+      case "Renta":
+        return faHome;
+      case "Alimentos":
+        return faUtensils;
+      case "Transporte":
+        return faCar;
+      case "Servicios":
+        return faBolt;
+      case "Entretenimiento":
+        return faTv;
+      case "Medicinas":
+        return faCapsules;
+      case "Escuela":
+        return faBook;
+      case "Ahorros":
+        return faPiggyBank;
+      default:
+        return faWallet; // Fallback icon
+    }
+  };
+
   return (
     <div className={`category-card ${cardColor}`}>
       <div className="category-card-header">
         <h3>
+          <FontAwesomeIcon icon={getCategoryIcon(category.name)} style={{ marginRight: '1px' }} /> {/* Reduced margin */}
           {category.name} {/* Category Name */}
         </h3>
         <div className="category-card-actions">
