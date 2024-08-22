@@ -354,7 +354,7 @@ button + button {
 }
 
 .budget-text {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   color: #000000; /* Text color */
   margin-right: 1px;
   animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation to the text */
