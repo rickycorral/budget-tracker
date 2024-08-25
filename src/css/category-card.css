@@ -1,0 +1,77 @@
+/* CategoryCard Styling */
+.category-card {
+    background-color: rgba(157, 212, 135, 0.85) !important;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    position: relative;
+    width: calc(100% + 10px);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .expand-indicator {
+    font-size: 1.2rem;
+    color: darkgreen;
+    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .category-card.expanded .expand-indicator {
+    transform: rotate(180deg);
+  }
+  
+  .category-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-top: 20px;
+    margin-bottom: 1px;
+    color: darkgreen;
+  }
+  
+  .category-card-actions {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .category-card-details {
+    text-align: left;
+    margin-top: 1px;
+  }
+  
+  .category-card-alert {
+    color: red;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .total-gastos-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 15px;
+  }
+  
+  .category-card-total {
+    font-size: 1rem;
+    font-weight: bold;
+    color: darkgreen;
+    text-align: center;
+    padding: 5px 10px;
+    background-color: #e3f8da;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    max-width: 300px;
+    width: auto;
+    margin: 0 auto;
+  }
+  

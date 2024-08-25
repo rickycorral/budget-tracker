@@ -85,13 +85,6 @@
   margin-top: 10px;
 }
 
-.category-card-percentage-text,
-.category-card-total,
-.text-sm {
-  margin: 0; /* Remove any default margin */
-  font-size: 1rem; /* Adjusted font size for better readability */
-}
-
 .category-card-alert {
   color: red;
   font-weight: bold;
@@ -107,7 +100,7 @@
 }
 
 .category-card-total {
-  font-size: 1.5rem; /* Increase font size */
+  font-size: 1rem; /* Increase font size */
   font-weight: bold; /* Make it bold */
   color: darkgreen; /* Dark green color */
   text-align: center; /* Center text */
@@ -187,11 +180,11 @@
 }
 
 .expense-card-header {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-align: center;
-  color: #333;
+  color: darkgreen;
 }
 
 .expense-card-button {

@@ -1,0 +1,62 @@
+/* Mobile-specific Adjustments */
+@media (max-width: 767px) {
+    .dashboard-bg {
+      padding: 10px;
+      background-size: contain;
+    }
+  
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .flex {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card,
+    .expense-card,
+    .category-card,
+    .budget-card {
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+  
+    h3,
+    p {
+      font-size: 14px;
+    }
+  
+    button,
+    input[type="number"],
+    input[type="text"],
+    select {
+      width: 100%;
+      margin-top: 5px;
+      padding: 5px 8px;
+      font-size: 12px;
+    }
+  
+    button + button {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  
+    .graph-and-expenses-container {
+      flex-direction: column;
+    }
+  
+    .graph-section,
+    .expense-card,
+    .budget-card {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .graph-container {
+      margin-top: 10px;
+      padding-top: 0;
+      order: 2;
+    }
+  }
+  

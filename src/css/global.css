@@ -1,0 +1,11 @@
+/* Dashboard Background */
+.dashboard-bg {
+    background-image: url("./frog.webp");
+    background-repeat: repeat;
+    background-size: cover;
+    background-color: #e3f8da;
+    min-height: 100vh;
+    padding-top: 60px;
+    padding: 20px;
+  }
+  

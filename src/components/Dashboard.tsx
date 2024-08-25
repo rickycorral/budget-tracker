@@ -3,7 +3,7 @@ import BudgetCard from "./BudgetCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
 import ExpenseChart from "./ExpenseChart";
-import "../Dashboard.css";
+import "../css/main.css";
 import Header from "./Header";
 
 export interface ExpenseCategory {

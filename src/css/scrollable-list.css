@@ -1,0 +1,52 @@
+/* Scrollable Expense List Styling */
+.expense-list-container {
+    max-height: 100px;
+    overflow-y: auto;
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+  
+  .expense-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+  }
+  
+  .expense-description {
+    flex: 3;
+    text-align: left;
+  }
+  
+  .expense-amount {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .expense-date {
+    flex: 2;
+    text-align: right;
+  }
+  
+  .expense-list-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .expense-list-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+  
+  .expense-list-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+
