@@ -29,10 +29,9 @@
 .category-card:hover,
 .expense-chart-card:hover,
 .budget-card:hover {
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+  transform: translateY(-2px); /* Slight lift effect */
 }
-
 
 /* CategoryCard Styling */
 .category-card {
@@ -66,7 +65,7 @@
   font-weight: bold; /* Bold font */
   padding-top: 20px; /* Adjust this value to control the top padding */
   margin-bottom: 1px; /* Add margin at the bottom for spacing */
-  color: darkgreen
+  color: darkgreen;
 }
 
 .category-card-actions {
@@ -99,22 +98,52 @@
   margin-top: 5px;
 }
 
+.total-gastos-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the text */
+  position: relative; /* Relative positioning to allow absolute positioning of the frog */
+  margin-bottom: 15px;
+}
+
 .category-card-total {
-  margin: 0; /* Remove any default margin */
-  font-size: 1rem; /* Adjusted font size for better readability */
-  font-weight: bold; /* Make the text bold */
+  font-size: 1.5rem; /* Increase font size */
+  font-weight: bold; /* Make it bold */
+  color: darkgreen; /* Dark green color */
+  text-align: center; /* Center text */
+  padding: 5px 10px; /* Reduced padding to make the background space smaller */
+  background-color: #e3f8da; /* Light background for emphasis */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  flex-grow: 1; /* Allow it to take up available space */
+  max-width: 300px; /* Limit the maximum width to make it less wide */
+  width: auto; /* Adjust width based on content */
+  margin: 0 auto; /* Center the element within its container */
 }
 
-
-.action-icon {
-  cursor: pointer;
-  font-size: 1.5rem;
-  color: #000000;
-  transition: color 0.3s ease-in-out;
+/* Frog Icon with Triggered Jump Animation */
+.frog-icon {
+  font-size: 30px; /* Adjust size */
+  color: darkgreen;
+  position: absolute; /* Absolute positioning to move the frog icon */
+  right: 20px; /* Move the frog slightly to the left by adjusting the right value */
+  display: inline-block;
 }
 
-.action-icon:hover {
-  color: #ff0000;
+.frog-icon.animate {
+  animation: quickJump 1s ease-in-out; /* Triggered animation */
+}
+
+@keyframes quickJump {
+  0%, 100% {
+    transform: translateY(0); /* At rest */
+  }
+  20% {
+    transform: translateY(-50px); /* Quick upward jump */
+  }
+  40% {
+    transform: translateY(0); /* Return to rest */
+  }
 }
 
 /* ExpenseCard Styling */
@@ -379,6 +408,7 @@ button + button {
     order: 2; /* Ensure chart remains in the right order on smaller screens */
   }
 }
+
 @keyframes arrow-wiggle {
   0%, 100% {
     transform: translateX(0);
@@ -400,6 +430,7 @@ button + button {
   color: #000000; /* Black color for the arrow icon */
   animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation */
 }
+
 /* Scrollable Expense List Styling */
 .expense-list-container {
   max-height: 100px; /* Adjust the height as needed */
@@ -468,4 +499,3 @@ header {
   z-index: 1000; /* Ensure it stays above all other elements */
   box-sizing: border-box; /* Include padding and border in the element's width and height */
 }
-
