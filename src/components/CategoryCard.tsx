@@ -36,6 +36,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   cardColor,
 }) => {
   const [arrowVisible, setArrowVisible] = useState(true); // State to control arrow and text visibility
+  const [isExpanded, setIsExpanded] = useState(false); // State to control expansion
 
   const totalExpense = category.expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const percentageSpent = calculatePercentage(totalExpense, category.budget);
@@ -55,7 +56,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     handleSetBudget(Number(prompt("Nuevo presupuesto:"))); // Prompt for a new budget
   };
 
-  // Function to determine which icon to display based on the category name
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded); // Toggle the expansion state
+  };
+
   const getCategoryIcon = (name: string) => {
     switch (name) {
       case "Renta":
@@ -81,7 +85,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <div className={`category-card ${cardColor}`}>
-      <div className="category-card-header">
+      <div className="category-card-header" onClick={toggleExpand}>
         <h3>
           <FontAwesomeIcon icon={getCategoryIcon(category.name)} style={{ marginRight: '1px' }} /> {/* Reduced margin */}
           {category.name} {/* Category Name */}
@@ -102,38 +106,43 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             className="action-icon"
             onClick={handleWalletClick} // Handle the wallet click
           />
+          <span className="expand-indicator">{isExpanded ? '▲' : '▼'}</span> {/* Expand/Collapse Indicator */}
         </div>
       </div>
-      <div className="category-card-details">
-        <p className="category-card-total">
-          Total Gasto: ${totalExpense.toFixed(2)}
-        </p>
-        <p className="text-sm">
-          Presupuesto: ${category.budget?.toFixed(2)}
-        </p>
-      </div>
-      <div className="expense-list">
-        {category.expenses.map((expense, index) => (
-          <div key={index} className="expense-item">
-            <span>${expense.amount.toFixed(2)}</span> - <span>{expense.description}</span> - 
-            <span>{format(new Date(expense.date), 'd/MMM', { locale: es })}</span> {/* Format date */}
-            <FontAwesomeIcon
-              icon={faEdit}
-              title="Editar Gasto"
-              className="action-icon expense-edit-icon"
-              onClick={() => handleEditExpense(index)}
-              style={{ marginLeft: '10px', cursor: 'pointer', color: 'blue', fontSize: '.8rem' }} // Smaller size and blue color
-            />
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              title="Eliminar Gasto"
-              className="action-icon expense-delete-icon"
-              onClick={() => handleDeleteExpense(index)}
-              style={{ marginLeft: '5px', cursor: 'pointer', color: 'red', fontSize: '.8rem' }} // Smaller size and red color
-            />
-          </div>
-        ))}
-      </div>
+      {isExpanded && (
+        <div className="category-card-details">
+          <p className="category-card-total">
+            Total Gasto: ${totalExpense.toFixed(2)}
+          </p>
+          <p className="text-sm">
+            Presupuesto: ${category.budget?.toFixed(2)}
+          </p>
+        </div>
+      )}
+      {isExpanded && (
+        <div className="expense-list">
+          {category.expenses.map((expense, index) => (
+            <div key={index} className="expense-item">
+              <span>${expense.amount.toFixed(2)}</span> - <span>{expense.description}</span> - 
+              <span>{format(new Date(expense.date), 'd/MMM', { locale: es })}</span> {/* Format date */}
+              <FontAwesomeIcon
+                icon={faEdit}
+                title="Editar Gasto"
+                className="action-icon expense-edit-icon"
+                onClick={() => handleEditExpense(index)}
+                style={{ marginLeft: '10px', cursor: 'pointer', color: 'blue', fontSize: '.8rem' }} // Smaller size and blue color
+              />
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                title="Eliminar Gasto"
+                className="action-icon expense-delete-icon"
+                onClick={() => handleDeleteExpense(index)}
+                style={{ marginLeft: '5px', cursor: 'pointer', color: 'red', fontSize: '.8rem' }} // Smaller size and red color
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="progress-bar-container">
         <div
           className="progress-bar"

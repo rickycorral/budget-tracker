@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface ExpenseChartProps {
-  categories: { name: string; amount: number }[];
+  categories: { name: string; amount: number; description: string }[];
 }
 
 const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
@@ -57,9 +57,13 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
       tooltip: {
         callbacks: {
           label: function (tooltipItem: any) {
-            const label = tooltipItem.label || "";
             const value = tooltipItem.raw || 0;
-            return `${label}: $${value.toFixed(2)}`;
+            return `$${value.toFixed(2)}`; // First show the expense amount
+          },
+          afterLabel: function (tooltipItem: any) { // Use afterLabel to list expenses
+            const descriptions = categories[tooltipItem.dataIndex].description.split(', ');
+            const formattedDescriptions = descriptions.map(desc => `• ${desc}`).join('\n'); // Add bullet points
+            return formattedDescriptions;
           },
         },
       },
