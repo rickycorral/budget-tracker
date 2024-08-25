@@ -1,13 +1,14 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFrog } from "@fortawesome/free-solid-svg-icons";
+import '../css/budget-card.css'; // Import the new CSS file
 
 interface BudgetCardProps {
   isEditingBudget: boolean;
   monthlyBudget: number | null;
   monthlyBudgetInput: string;
   setMonthlyBudgetInput: (value: string) => void;
-  setMonthlyBudget: (value: number | null) => void; // Allow null for the budget value
+  setMonthlyBudget: (value: number | null) => void; 
   setIsEditingBudget: (value: boolean) => void;
 }
 
@@ -24,7 +25,7 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
     if (!isNaN(budgetValue) && budgetValue > 0) {
       setMonthlyBudget(budgetValue);
     } else {
-      setMonthlyBudget(null); // Set to null if invalid input
+      setMonthlyBudget(null); 
       alert("Por favor ingrese un presupuesto mensual válido.");
     }
     setIsEditingBudget(false);

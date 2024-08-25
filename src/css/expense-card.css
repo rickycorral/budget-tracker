@@ -1,20 +1,34 @@
 /* ExpenseCard Styling */
+.expense-card {
+    background-color: rgba(157, 212, 135, 0.8);
+    padding: 15px; /* Reduced padding */
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Subtler shadow */
+    margin-bottom: 15px; /* Reduced margin at the bottom */
+    color: #333;
+}
+
+.expense-card:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    transform: translateY(-2px);
+}
+
 .expense-card .form-row {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .expense-card .form-row label {
+    margin-bottom: 6px; /* Reduced margin between form rows */
+}
+
+.expense-card .form-row label {
     flex: 1;
-    padding-right: 10px;
+    padding-right: 5px; /* Reduced padding on the right of labels */
     font-weight: bold;
-  }
-  
-  .expense-card .form-row input,
-  .expense-card .form-row select {
+}
+
+.expense-card .form-row input,
+.expense-card .form-row select {
     flex: 2;
-    padding: 8px;
+    padding: 6px; /* Reduced padding inside inputs and selects */
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
@@ -22,34 +36,50 @@
     box-sizing: border-box;
     color: #333;
     background-color: white;
-  }
-  
-  .expense-card input[type="date"] {
+}
+
+.expense-card input[type="date"] {
     text-align: center;
-  }
-  
-  .expense-card-header {
-    font-size: 20px;
+}
+
+.expense-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; /* Slightly smaller font for compactness */
     font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
+    margin-bottom: 6px; /* Reduced margin below the header */
     color: darkgreen;
-  }
-  
-  .expense-card-button {
+    position: relative;
+}
+
+.expense-card-header .fa-frog {
+    position: absolute;
+    left: 0;
+    margin-left: 5px; /* Reduced space from the left edge */
+    font-size: 1.3rem; /* Slightly smaller icon size */
+    transition: transform 0.2s ease; /* Faster transition for bounce */
+}
+
+.expense-card-header .fa-frog:hover,
+.expense-card-header .fa-frog:active {
+    transform: translateY(-3px); /* Small bounce effect */
+}
+
+.expense-card-button {
     width: 100%;
-    margin-top: 10px;
-    padding: 12px;
+    margin-top: 6px; /* Reduced margin above the button */
+    padding: 8px; /* Reduced padding inside the button */
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 15px; /* Slightly smaller font size */
     font-weight: bold;
     background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
-  }
-  
-  .expense-card-button:hover {
+    transition: background-color 0.2s ease; /* Faster transition for button interaction */
+}
+
+.expense-card-button:hover {
     background-color: #45a049;
-  }
-  
+}

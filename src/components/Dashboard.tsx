@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BudgetCard from "./BudgetCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
@@ -19,26 +19,37 @@ const Dashboard: React.FC = () => {
   const [expenseInput, setExpenseInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [dateInput, setDateInput] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(
-    "Selecciona la Categoría"
-  );
+  const [selectedCategory, setSelectedCategory] = useState("Selecciona la Categoría");
   const [editingExpense, setEditingExpense] = useState<{
     categoryIndex: number;
     expenseIndex: number;
   } | null>(null);
 
   const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
-    [
-      { name: "Renta", budget: null, expenses: [] },
-      { name: "Alimentos", budget: null, expenses: [] },
-      { name: "Transporte", budget: null, expenses: [] },
-      { name: "Servicios", budget: null, expenses: [] },
-      { name: "Entretenimiento", budget: null, expenses: [] },
-      { name: "Medicinas", budget: null, expenses: [] },
-      { name: "Escuela", budget: null, expenses: [] },
-      { name: "Ahorros", budget: null, expenses: [] },
-    ]
+    () => {
+      const savedCategories = localStorage.getItem("expenseCategories");
+      return savedCategories ? JSON.parse(savedCategories) : [
+        { name: "Renta", budget: null, expenses: [] },
+        { name: "Alimentos", budget: null, expenses: [] },
+        { name: "Transporte", budget: null, expenses: [] },
+        { name: "Servicios", budget: null, expenses: [] },
+        { name: "Entretenimiento", budget: null, expenses: [] },
+        { name: "Medicinas", budget: null, expenses: [] },
+        { name: "Escuela", budget: null, expenses: [] },
+        { name: "Ahorros", budget: null, expenses: [] },
+      ];
+    }
   );
+
+  useEffect(() => {
+    const savedBudget = localStorage.getItem("monthlyBudget");
+    if (savedBudget) setMonthlyBudget(parseFloat(savedBudget));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("monthlyBudget", monthlyBudget?.toString() || "");
+    localStorage.setItem("expenseCategories", JSON.stringify(expenseCategories));
+  }, [monthlyBudget, expenseCategories]);
 
   const totalExpenses = expenseCategories.reduce(
     (total, category) =>
@@ -174,27 +185,12 @@ const Dashboard: React.FC = () => {
           setDateInput={setDateInput}
           setSelectedCategory={setSelectedCategory}
           handleAddExpense={handleAddExpense}
-          handleSaveEditedExpense={handleSaveEditedExpense} // Ensure this is accepted in ExpenseCard
+          handleSaveEditedExpense={handleSaveEditedExpense} 
           editingExpense={editingExpense}
           expenseCategories={expenseCategories}
         />
-        <div className="graph-section">
-          <div className="graph-container">
-            <ExpenseChart
-              categories={expenseCategories.map((category) => ({
-                name: category.name,
-                amount: category.expenses.reduce(
-                  (sum, expense) => sum + expense.amount,
-                  0
-                ),
-                description: category.expenses
-                  .map((expense) => expense.description)
-                  .join(", "), // Combine all descriptions
-              }))}
-            />
-          </div>
-        </div>
       </div>
+      
       <div className="grid grid-cols-2 gap-4 mt-4">
         {expenseCategories.map((category, index) => (
           <CategoryCard
@@ -216,6 +212,21 @@ const Dashboard: React.FC = () => {
             cardColor="bg-green-200"
           />
         ))}
+      </div>
+
+      <div className="graph-section mt-4">
+        <ExpenseChart
+          categories={expenseCategories.map((category) => ({
+            name: category.name,
+            amount: category.expenses.reduce(
+              (sum, expense) => sum + expense.amount,
+              0
+            ),
+            description: category.expenses
+              .map((expense) => expense.description)
+              .join(", "),
+          }))}
+        />
       </div>
     </section>
   );

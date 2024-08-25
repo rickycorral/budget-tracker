@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import "../css/expense-chart.css"; // Ensure you import the correct CSS file
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,30 +12,20 @@ interface ExpenseChartProps {
 }
 
 const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const data = {
     labels: categories.map((category) => category.name),
     datasets: [
       {
         data: categories.map((category) => category.amount),
         backgroundColor: [
-          "#00FF00", // Bright Lime Green
-          "#32CD32", // Lime Green
-          "#228B22", // Forest Green
-          "#87CEEB", // Sky Blue
-          "#4169E1", // Royal Blue
-          "#DAA520", // Goldenrod
-          "#DC143C", // Crimson
-          "#FF4500", // Orange Red
+          "#00FF00", "#32CD32", "#228B22", "#87CEEB",
+          "#4169E1", "#DAA520", "#DC143C", "#FF4500",
         ],
         hoverBackgroundColor: [
-          "#00FF00",
-          "#32CD32",
-          "#228B22",
-          "#87CEEB",
-          "#4169E1",
-          "#DAA520",
-          "#DC143C",
-          "#FF4500",
+          "#00FF00", "#32CD32", "#228B22", "#87CEEB",
+          "#4169E1", "#DAA520", "#DC143C", "#FF4500",
         ],
       },
     ],
@@ -50,7 +43,7 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
             weight: "bold" as const,
           },
           boxWidth: 25,
-          padding: 20, // Increased padding for better spacing
+          padding: 20,
           color: "#333",
         },
       },
@@ -58,41 +51,31 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ categories }) => {
         callbacks: {
           label: function (tooltipItem: any) {
             const value = tooltipItem.raw || 0;
-            return `$${value.toFixed(2)}`; // First show the expense amount
+            return `$${value.toFixed(2)}`;
           },
-          afterLabel: function (tooltipItem: any) { // Use afterLabel to list expenses
+          afterLabel: function (tooltipItem: any) {
             const descriptions = categories[tooltipItem.dataIndex].description.split(', ');
-            const formattedDescriptions = descriptions.map(desc => `• ${desc}`).join('\n'); // Add bullet points
-            return formattedDescriptions;
+            return descriptions.map(desc => `• ${desc}`).join('\n');
           },
-        },
-      },
-      datalabels: {
-        display: true,
-        color: "white",
-        font: {
-          weight: "bold",
-        },
-        formatter: function (value: number, context: any) {
-          const total = context.chart.data.datasets[0].data.reduce(
-            (sum: number, data: number) => sum + data,
-            0
-          );
-          const percentage = ((value / total) * 100).toFixed(2);
-          return `${percentage}%`;
         },
       },
     },
     maintainAspectRatio: false,
     responsive: true,
-    aspectRatio: 1, // Maintain square aspect ratio
+    aspectRatio: 1,
   };
 
   return (
-    <div className="expense-chart-card">
-      <div className="graph-container">
-        <Pie data={data} options={options} />
+    <div className={`expense-chart-card ${isExpanded ? 'expanded' : ''}`}>
+      <div className="chart-header" onClick={() => setIsExpanded(!isExpanded)}>
+        <h3 className="chart-title">Gastos por Categoría</h3>
+        <FontAwesomeIcon icon={isExpanded ? faChevronUp : faChevronDown} className="expand-icon" />
       </div>
+      {isExpanded && (
+        <div className="graph-container">
+          <Pie data={data} options={options} />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,12 @@
 import React from 'react';
+import frogLogo from './ranare.webp'; // Update this path to where your frog logo is stored
+import '../css/header.css'; // Import the CSS file
 
 const Header = () => {
   return (
-    <header className="bg-green-700 text-white p-4 text-center"> {/* Centered text and green background */}
-      <h1 className="text-xl font-bold">RanaRe</h1>
+    <header>
+      <img src={frogLogo} alt="Frog Logo" className="logo" />
+      <h1 className="title">RanaRe</h1>
     </header>
   );
 };

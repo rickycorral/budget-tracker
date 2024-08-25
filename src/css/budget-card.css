@@ -1,0 +1,58 @@
+/* Compact Styling for the BudgetCard Component */
+.budget-card {
+    background-color: rgba(157, 212, 135, 0.9); 
+    padding: 15px; /* Reduced padding */
+    border-radius: 8px; /* Slightly smaller corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Slightly lighter shadow */
+    text-align: center; 
+    margin-bottom: 15px; /* Reduced bottom margin */
+    color: #2c7a7b;
+}
+
+/* Compact Header Styling */
+.budget-card h3 {
+    font-size: 1rem; /* Reduced font size */
+    margin-bottom: 8px; /* Reduced margin */
+    color: darkgreen;
+}
+
+/* Compact Budget Value Styling */
+.budget-card p {
+    font-size: 1.5rem; /* Reduced font size */
+    font-weight: bold;
+    color: darkgreen;
+    margin: 8px 0; /* Reduced vertical margin */
+}
+
+/* Compact Input Field Styling */
+.budget-input {
+    width: 100%; 
+    padding: 8px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller corners */
+    border: 2px solid #4caf50; 
+    font-size: 0.9rem; /* Reduced font size */
+    margin-bottom: 8px; /* Reduced margin */
+}
+
+/* Compact Button Styling */
+.budget-button {
+    width: 100%; 
+    padding: 10px; /* Reduced padding */
+    border-radius: 6px; /* Slightly smaller corners */
+    font-size: 0.9rem; /* Reduced font size */
+    font-weight: bold;
+    background-color: #4caf50; 
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.budget-button:hover {
+    background-color: #45a049; 
+}
+
+/* Reduced Spacing for Buttons */
+.budget-card .budget-button {
+    margin-top: 8px; /* Reduced top margin */
+}
