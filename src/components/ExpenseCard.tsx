@@ -1,104 +1,90 @@
-import React, { useEffect } from 'react';
-import { ExpenseCategory } from './Dashboard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFrog } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
 
 interface ExpenseCardProps {
   totalExpenses: number;
   expenseInput: string;
+  setExpenseInput: (input: string) => void;
   descriptionInput: string;
+  setDescriptionInput: (input: string) => void;
   dateInput: string;
+  setDateInput: (input: string) => void;
   selectedCategory: string;
-  setExpenseInput: (value: string) => void;
-  setDescriptionInput: (value: string) => void;
-  setDateInput: (value: string) => void;
-  setSelectedCategory: (value: string) => void;
+  setSelectedCategory: (category: string) => void;
   handleAddExpense: () => void;
-  editingExpense: number | null;
-  handleSaveEditedExpense: () => void;
-  expenseCategories: ExpenseCategory[];
+  handleSaveEditedExpense: () => void;  // Add this line
+  editingExpense: { categoryIndex: number; expenseIndex: number } | null;  // Add this line if it wasn't present
+  expenseCategories: { name: string }[];
 }
 
 const ExpenseCard: React.FC<ExpenseCardProps> = ({
   totalExpenses,
   expenseInput,
-  descriptionInput,
-  dateInput,
-  selectedCategory,
   setExpenseInput,
+  descriptionInput,
   setDescriptionInput,
+  dateInput,
   setDateInput,
+  selectedCategory,
   setSelectedCategory,
   handleAddExpense,
-  editingExpense,
-  handleSaveEditedExpense,
+  handleSaveEditedExpense,  // Add this line
+  editingExpense,  // Add this line if it wasn't present
   expenseCategories,
 }) => {
-
-  useEffect(() => {
-    setDateInput(new Date().toISOString().split('T')[0]);
-  }, [setDateInput]);
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDateInput(e.target.value);
-  };
-
   return (
     <div className="expense-card">
-      <h3 className="expense-card-header">
-        Gastos Totales <FontAwesomeIcon icon={faFrog} />: ${totalExpenses.toFixed(2)}
-      </h3>
+      <h2 className="expense-card-header">Agregar Gasto</h2>
+      <p>Total Gastos: {totalExpenses}</p>
       <div className="form-row">
-        <label>Categoría:</label>
+        <label>Categoría</label>
         <select
-          value={selectedCategory || ""}  //Ensure the placeholder is shown if no category is selected
+          value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          <option value="">
-            Selecciona la Categoría
-          </option>
-          {expenseCategories.map((category) => (
-            <option key={category.name} value={category.name}>
+          <option value="">Seleccionar Categoría</option>
+          {expenseCategories.map((category, index) => (
+            <option key={index} value={category.name}>
               {category.name}
             </option>
           ))}
         </select>
       </div>
       <div className="form-row">
-        <label>Gasto:</label>
+        <label>Monto</label>
         <input
           type="number"
           value={expenseInput}
           onChange={(e) => setExpenseInput(e.target.value)}
-          placeholder="Ingresa el gasto"
+          placeholder="Ingrese el monto"
         />
       </div>
       <div className="form-row">
-        <label>Descripción:</label>
+        <label>Descripción</label>
         <input
           type="text"
           value={descriptionInput}
           onChange={(e) => setDescriptionInput(e.target.value)}
-          placeholder="Descripción"
+          placeholder="Descripción del gasto"
         />
       </div>
-      <div className="form-row date-input-container">
-        <label>Fecha:</label>
+      <div className="form-row">
+        <label>Fecha</label>
         <input
           type="date"
           value={dateInput}
-          onChange={handleDateChange}
-          className="date-input"
+          onChange={(e) => setDateInput(e.target.value)}
         />
       </div>
-      <button
-        onClick={editingExpense !== null ? handleSaveEditedExpense : handleAddExpense}
-        className="expense-card-button"
-      >
-        {editingExpense !== null ? "Guardar Gasto" : "Agregar Gasto"}
+      <button onClick={handleAddExpense} className="expense-card-button">
+        Agregar Gasto
       </button>
+      {editingExpense && (
+        <button onClick={handleSaveEditedExpense} className="expense-card-button">
+          Guardar Cambios
+        </button>
+      )}
     </div>
   );
 };
 
-export default React.memo(ExpenseCard);
+export default ExpenseCard;

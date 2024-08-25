@@ -1,10 +1,12 @@
 /* Dashboard Background */
+/* Adjust the top padding of the dashboard background to account for the fixed header */
 .dashboard-bg {
   background-image: url("./frog.webp");
   background-repeat: repeat;
   background-size: cover;
   background-color: #e3f8da;
   min-height: 100vh;
+  padding-top: 60px; /* Add padding to avoid content hiding under the fixed header */
   padding: 20px;
 }
 
@@ -29,7 +31,12 @@
   margin-bottom: 15px;
   text-align: center;
   position: relative;
+  width: calc(100% + 10px); /* Slightly wider */
+  max-width: 500px; /* Set a max-width to ensure it doesn’t become too wide */
+  margin-left: auto; /* Center align */
+  margin-right: auto; /* Center align */
 }
+
 
 .category-card-header {
   display: flex;
@@ -37,8 +44,8 @@
   align-items: center;
   font-size: 1.2rem; /* Larger font size */
   font-weight: bold; /* Bold font */
-  padding-top: 15px; /* Adjust this value to control the top padding */
-  margin-bottom: 10px; /* Add margin at the bottom for spacing */
+  padding-top: 20px; /* Adjust this value to control the top padding */
+  margin-bottom: 1px; /* Add margin at the bottom for spacing */
   color: darkgreen
 }
 
@@ -52,7 +59,7 @@
 
 .category-card-details {
   text-align: left; /* Align text to the left */
-  margin-top: 10px;
+  margin-top: 1px;
 }
 
 .category-card-percentage {
@@ -71,6 +78,13 @@
   font-weight: bold;
   margin-top: 5px;
 }
+
+.category-card-total {
+  margin: 0; /* Remove any default margin */
+  font-size: 1rem; /* Adjusted font size for better readability */
+  font-weight: bold; /* Make the text bold */
+}
+
 
 .action-icon {
   cursor: pointer;
@@ -365,5 +379,73 @@ button + button {
   font-size: 1.2rem; /* Adjust the size if needed */
   color: #000000; /* Black color for the arrow icon */
   animation: arrow-wiggle 1s ease-in-out infinite; /* Apply the wiggle animation */
+}
+/* Scrollable Expense List Styling */
+.expense-list-container {
+  max-height: 100px; /* Adjust the height as needed */
+  overflow-y: auto;
+  margin-top: 15px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.expense-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.9rem; /* Adjust font size for readability */
+}
+
+.expense-description {
+  flex: 3;
+  text-align: left;
+}
+
+.expense-amount {
+  flex: 1;
+  text-align: center;
+}
+
+.expense-date {
+  flex: 2;
+  text-align: right;
+}
+
+/* Scrollbar Styling */
+.expense-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.expense-list-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.expense-list-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Header Styling */
+header {
+  background-color: #2c7a7b; /* Adjust the color to match your design */
+  color: white;
+  text-align: center;
+  padding: 10px 0; /* Add some padding for spacing */
+  margin: 0; /* Ensure no margin is added around the header */
+  width: 100%; /* Ensure the header covers the full width */
+  position: fixed; /* Fix the header to the top of the page */
+  top: 0; /* Position at the very top */
+  left: 0; /* Ensure the header starts at the very left edge */
+  right: 0; /* Ensure the header covers the entire width */
+  z-index: 1000; /* Ensure it stays above all other elements */
+  box-sizing: border-box; /* Include padding and border in the element's width and height */
 }
 

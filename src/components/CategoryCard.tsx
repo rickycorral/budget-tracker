@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faEdit, faTrashAlt, faArrowRight, faHome, faCar, faUtensils, faBook, faCapsules, faPiggyBank, faBolt, faTv } from "@fortawesome/free-solid-svg-icons";
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+interface Expense {
+  amount: number;
+  description: string;
+  date: string;
+}
 
 interface ExpenseCategory {
   name: string;
   budget: number | null;
-  expenses: { amount: number; description: string; date: string }[];
+  expenses: Expense[];
 }
 
 interface CategoryCardProps {
   category: ExpenseCategory;
-  handleEditExpense: () => void;
-  handleDeleteExpense: () => void;
+  handleEditExpense: (expenseIndex: number) => void;
+  handleDeleteExpense: (expenseIndex: number) => void;
   calculatePercentage: (amount: number, budget: number | null) => number;
   alertThreshold: number;
   handleSetBudget: (budgetValue: number) => void;
@@ -94,22 +102,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             className="action-icon"
             onClick={handleWalletClick} // Handle the wallet click
           />
-          {category.expenses.length > 0 && (
-            <>
-              <FontAwesomeIcon
-                icon={faEdit}
-                title="Editar Gasto"
-                className="action-icon"
-                onClick={handleEditExpense}
-              />
-              <FontAwesomeIcon
-                icon={faTrashAlt}
-                title="Eliminar Gasto"
-                className="action-icon"
-                onClick={handleDeleteExpense}
-              />
-            </>
-          )}
         </div>
       </div>
       <div className="category-card-details">
@@ -119,6 +111,28 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         <p className="text-sm">
           Presupuesto: ${category.budget?.toFixed(2)}
         </p>
+      </div>
+      <div className="expense-list">
+        {category.expenses.map((expense, index) => (
+          <div key={index} className="expense-item">
+            <span>${expense.amount.toFixed(2)}</span> - <span>{expense.description}</span> - 
+            <span>{format(new Date(expense.date), 'd/MMM', { locale: es })}</span> {/* Format date */}
+            <FontAwesomeIcon
+              icon={faEdit}
+              title="Editar Gasto"
+              className="action-icon expense-edit-icon"
+              onClick={() => handleEditExpense(index)}
+              style={{ marginLeft: '10px', cursor: 'pointer', color: 'blue', fontSize: '.8rem' }} // Smaller size and blue color
+            />
+            <FontAwesomeIcon
+              icon={faTrashAlt}
+              title="Eliminar Gasto"
+              className="action-icon expense-delete-icon"
+              onClick={() => handleDeleteExpense(index)}
+              style={{ marginLeft: '5px', cursor: 'pointer', color: 'red', fontSize: '.8rem' }} // Smaller size and red color
+            />
+          </div>
+        ))}
       </div>
       <div className="progress-bar-container">
         <div

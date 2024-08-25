@@ -4,7 +4,7 @@ import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
 import ExpenseChart from "./ExpenseChart";
 import "../Dashboard.css";
-import Header from "./Header"; // Importing the Header component
+import Header from "./Header";
 
 export interface ExpenseCategory {
   name: string;
@@ -13,16 +13,14 @@ export interface ExpenseCategory {
 }
 
 const Dashboard: React.FC = () => {
-  // State variables
   const [monthlyBudget, setMonthlyBudget] = useState<number | null>(null);
   const [isEditingBudget, setIsEditingBudget] = useState(false);
   const [monthlyBudgetInput, setMonthlyBudgetInput] = useState("");
-  const [incomeInput, setIncomeInput] = useState("");
   const [expenseInput, setExpenseInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Selecciona la Categoría");
-  const [editingExpense, setEditingExpense] = useState<number | null>(null);
+  const [editingExpense, setEditingExpense] = useState<{ categoryIndex: number; expenseIndex: number } | null>(null);
 
   const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>([
     { name: "Renta", budget: null, expenses: [] },
@@ -35,18 +33,11 @@ const Dashboard: React.FC = () => {
     { name: "Ahorros", budget: null, expenses: [] },
   ]);
 
-  // Derived variables
-  const totalIncome = expenseCategories.reduce(
-    (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-    0
-  );
-  
   const totalExpenses = expenseCategories.reduce(
     (total, category) => total + category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
     0
   );
 
-  // Functions for handling expenses and budgets
   const handleAddExpense = () => {
     const expenseValue = parseFloat(expenseInput);
     if (isNaN(expenseValue) || expenseValue <= 0) {
@@ -72,58 +63,66 @@ const Dashboard: React.FC = () => {
     });
 
     setExpenseCategories(updatedCategories);
+    resetExpenseForm();
+  };
+
+  const resetExpenseForm = () => {
     setExpenseInput("");
     setDescriptionInput("");
-    setDateInput(""); // Clear the date input after adding an expense
+    setDateInput("");
+    setSelectedCategory("Selecciona la Categoría");
+    setEditingExpense(null);
   };
 
-  const handleSetBudget = (index: number, budgetValue: number) => {
-    const updatedCategories = [...expenseCategories];
-    updatedCategories[index].budget = budgetValue;
-    setExpenseCategories(updatedCategories);
-  };
+  const handleEditExpense = (categoryIndex: number, expenseIndex: number) => {
+    const selectedCategory = expenseCategories[categoryIndex];
+    const selectedExpense = selectedCategory.expenses[expenseIndex];
 
-  const handleEditExpense = (index: number) => {
-    setEditingExpense(index);
-    const selectedExpense = expenseCategories[index].expenses[0];
-    setSelectedCategory(expenseCategories[index].name);
+    setSelectedCategory(selectedCategory.name);
     setExpenseInput(selectedExpense.amount.toString());
     setDescriptionInput(selectedExpense.description);
     setDateInput(selectedExpense.date);
+
+    setEditingExpense({ categoryIndex, expenseIndex });
   };
 
   const handleSaveEditedExpense = () => {
-    if (editingExpense === null) return;
+    if (!editingExpense) return;
 
-    const updatedCategories = expenseCategories.map((category, index) => {
-      if (index === editingExpense) {
+    const { categoryIndex, expenseIndex } = editingExpense;
+    const updatedCategories = [...expenseCategories];
+
+    updatedCategories[categoryIndex].expenses[expenseIndex] = {
+      amount: parseFloat(expenseInput),
+      description: descriptionInput,
+      date: dateInput,
+    };
+
+    setExpenseCategories(updatedCategories);
+    resetExpenseForm();
+  };
+
+  const handleDeleteExpense = (categoryIndex: number, expenseIndex: number) => {
+    const updatedCategories = expenseCategories.map((category, idx) => {
+      if (idx === categoryIndex) {
         return {
           ...category,
-          expenses: category.expenses.map((expense, idx) =>
-            idx === 0
-              ? {
-                  amount: parseFloat(expenseInput),
-                  description: descriptionInput,
-                  date: dateInput,
-                }
-              : expense
-          ),
+          expenses: category.expenses.filter((_, expIdx) => expIdx !== expenseIndex),
         };
       }
       return category;
     });
 
     setExpenseCategories(updatedCategories);
-    setEditingExpense(null);
-    setExpenseInput("");
-    setDescriptionInput("");
-    setDateInput(""); // Clear the date input after saving an edited expense
   };
 
-  const handleDeleteExpense = (index: number) => {
+  const handleSetBudget = (categoryIndex: number, budgetValue: number) => {
     const updatedCategories = expenseCategories.map((category, idx) => {
-      if (idx === index) {
-        return { ...category, expenses: [] };
+      if (idx === categoryIndex) {
+        return {
+          ...category,
+          budget: budgetValue,
+        };
       }
       return category;
     });
@@ -136,67 +135,61 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <>
-      <Header /> {/* Render the Header component at the top */}
-      <section className="dashboard-bg p-4 rounded-lg shadow mt-0"> {/* Removed the margin-top */}
-        <div className="flex justify-between items-start gap-4">
-          <BudgetCard
-            isEditingBudget={isEditingBudget}
-            monthlyBudget={monthlyBudget}
-            monthlyBudgetInput={monthlyBudgetInput}
-            setMonthlyBudgetInput={setMonthlyBudgetInput}
-            setMonthlyBudget={setMonthlyBudget}
-            setIsEditingBudget={setIsEditingBudget}
-          />
-        </div>
+    <section className="dashboard-bg mt-4 p-4 rounded-lg shadow">
+      <Header />
+      <div className="flex justify-between items-start gap-4">
+        <BudgetCard
+          isEditingBudget={isEditingBudget}
+          monthlyBudget={monthlyBudget}
+          monthlyBudgetInput={monthlyBudgetInput}
+          setMonthlyBudgetInput={setMonthlyBudgetInput}
+          setMonthlyBudget={setMonthlyBudget}
+          setIsEditingBudget={setIsEditingBudget}
+        />
+      </div>
 
-        <div className="graph-and-expenses-container">
-          <ExpenseCard
-            totalExpenses={totalExpenses}
-            expenseInput={expenseInput}
-            descriptionInput={descriptionInput}
-            dateInput={dateInput}
-            selectedCategory={selectedCategory}
-            setExpenseInput={setExpenseInput}
-            setDescriptionInput={setDescriptionInput}
-            setDateInput={setDateInput}
-            setSelectedCategory={setSelectedCategory}
-            handleAddExpense={handleAddExpense}
-            editingExpense={editingExpense}
-            handleSaveEditedExpense={handleSaveEditedExpense}
-            expenseCategories={expenseCategories}
-          />
-          <div className="graph-section">
-            <div className="graph-container">
-              <ExpenseChart
-                categories={expenseCategories.map((category) => ({
-                  name: category.name,
-                  amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
-                }))}
-              />
-            </div>
+      <div className="graph-and-expenses-container">
+        <ExpenseCard
+          totalExpenses={totalExpenses}
+          expenseInput={expenseInput}
+          descriptionInput={descriptionInput}
+          dateInput={dateInput}
+          selectedCategory={selectedCategory}
+          setExpenseInput={setExpenseInput}
+          setDescriptionInput={setDescriptionInput}
+          setDateInput={setDateInput}
+          setSelectedCategory={setSelectedCategory}
+          handleAddExpense={handleAddExpense}
+          handleSaveEditedExpense={handleSaveEditedExpense}  // Ensure this is accepted in ExpenseCard
+          editingExpense={editingExpense}
+          expenseCategories={expenseCategories}
+        />
+        <div className="graph-section">
+          <div className="graph-container">
+            <ExpenseChart
+              categories={expenseCategories.map((category) => ({
+                name: category.name,
+                amount: category.expenses.reduce((sum, expense) => sum + expense.amount, 0),
+              }))}
+            />
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {expenseCategories.map((category, index) => (
-            <CategoryCard
-              key={index}
-              category={category}
-              handleEditExpense={() => handleEditExpense(index)}
-              handleDeleteExpense={() => handleDeleteExpense(index)}
-              calculatePercentage={(amount, budget) =>
-                calculatePercentage(amount, budget)
-              }
-              alertThreshold={80}
-              handleSetBudget={(budgetValue) =>
-                handleSetBudget(index, budgetValue)
-              }
-              cardColor="bg-green-200"
-            />
-          ))}
-        </div>
-      </section>
-    </>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
+        {expenseCategories.map((category, index) => (
+          <CategoryCard
+            key={index}
+            category={category}
+            calculatePercentage={(amount, budget) => calculatePercentage(amount, budget)}
+            alertThreshold={80}
+            handleSetBudget={(budgetValue) => handleSetBudget(index, budgetValue)}
+            handleEditExpense={(expenseIndex) => handleEditExpense(index, expenseIndex)}
+            handleDeleteExpense={(expenseIndex) => handleDeleteExpense(index, expenseIndex)}
+            cardColor="bg-green-200"
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 
