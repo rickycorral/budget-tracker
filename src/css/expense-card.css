@@ -1,34 +1,88 @@
 /* ExpenseCard Styling */
 .expense-card {
     background-color: rgba(157, 212, 135, 0.8);
-    padding: 15px; /* Reduced padding */
+    padding: 10px 20px; /* Reduced padding to ensure some visibility when collapsed */
     border-radius: 10px;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Subtler shadow */
-    margin-bottom: 15px; /* Reduced margin at the bottom */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Margin at the bottom */
     color: #333;
+    cursor: pointer;
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+    max-height: 70px; /* Set an appropriate height to indicate the card can expand */
+    opacity: 1;
+}
+
+.expense-card.expanded {
+    max-height: 500px; /* Adjust based on the content height */
+    padding: 20px;
+    opacity: 1; /* Full opacity when expanded */
+}
+
+.expense-card.collapsed .expense-card-header {
+    background-color: darkgreen; /* Dark green background when collapsed */
+    color: white; /* Ensure the text color contrasts well */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.expense-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: darkgreen;
+    position: relative;
+}
+
+.expense-card-header.collapsed-header {
+    background-color: darkgreen; /* Dark green background when collapsed */
+    color: white; /* Text color when collapsed */
+}
+
+.expense-card-header .fa-frog {
+    position: absolute;
+    left: 0;
+    margin-left: 8px; /* Space from the left edge */
+    font-size: 1.5rem;
+}
+
+.expand-icon {
+    position: absolute;
+    right: 0;
+    margin-right: 25px;
+    font-size: 1.2rem;
+}
+
+.expense-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
 }
 
 .expense-card:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow on hover */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
 .expense-card .form-row {
     display: flex;
     align-items: center;
-    margin-bottom: 6px; /* Reduced margin between form rows */
+    margin-bottom: 8px;
 }
 
 .expense-card .form-row label {
     flex: 1;
-    padding-right: 5px; /* Reduced padding on the right of labels */
+    padding-right: 8px;
     font-weight: bold;
 }
 
 .expense-card .form-row input,
 .expense-card .form-row select {
     flex: 2;
-    padding: 6px; /* Reduced padding inside inputs and selects */
+    padding: 6px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
@@ -38,46 +92,17 @@
     background-color: white;
 }
 
-.expense-card input[type="date"] {
-    text-align: center;
-}
-
-.expense-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px; /* Slightly smaller font for compactness */
-    font-weight: bold;
-    margin-bottom: 6px; /* Reduced margin below the header */
-    color: darkgreen;
-    position: relative;
-}
-
-.expense-card-header .fa-frog {
-    position: absolute;
-    left: 0;
-    margin-left: 5px; /* Reduced space from the left edge */
-    font-size: 1.3rem; /* Slightly smaller icon size */
-    transition: transform 0.2s ease; /* Faster transition for bounce */
-}
-
-.expense-card-header .fa-frog:hover,
-.expense-card-header .fa-frog:active {
-    transform: translateY(-3px); /* Small bounce effect */
-}
-
 .expense-card-button {
     width: 100%;
-    margin-top: 6px; /* Reduced margin above the button */
-    padding: 8px; /* Reduced padding inside the button */
+    margin-top: 8px;
+    padding: 10px;
     border-radius: 5px;
-    font-size: 15px; /* Slightly smaller font size */
+    font-size: 16px;
     font-weight: bold;
     background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s ease; /* Faster transition for button interaction */
 }
 
 .expense-card-button:hover {

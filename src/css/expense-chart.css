@@ -1,45 +1,61 @@
 /* ExpenseChartCard Styling */
 .expense-chart-card {
-    background-color: rgba(157, 212, 135, 0.8); /* Apply the background color */
-    padding: 15px; /* Reduced padding */
+    background-color: darkgreen; /* Dark green background when collapsed */
+    padding: 10px 20px; /* Adjusted padding */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
-    margin-bottom: 25px; /* Margin at the bottom for spacing */
-    color: #333; /* Text color */
+    margin-bottom: 20px; /* Margin at the bottom for spacing */
+    color: white; /* Text color when collapsed */
     max-width: 600px; /* Set a max-width to control the size */
     margin: 0 auto; /* Center the card */
     cursor: pointer;
-  }
-  
-  .expense-chart-card:hover {
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+    max-height: 70px; /* Set an appropriate height to indicate the card can expand */
+    opacity: 1;
+}
+
+.expense-chart-card.expanded {
+    background-color: rgba(157, 212, 135, 0.8); /* Light green background when expanded */
+    color: #333; /* Darker text color when expanded */
+    max-height: 500px; /* Adjust based on the content height */
+    padding: 20px;
+    opacity: 1; /* Full opacity when expanded */
+}
+
+.expense-chart-card:hover {
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
-  }
-  
-  .chart-header {
+}
+
+.chart-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .chart-title {
+}
+
+.chart-title {
     font-size: 1.2rem;
     font-weight: bold;
-    color: darkgreen;
-  }
-  
-  .expand-icon {
+    color: white; /* White text when collapsed */
+}
+
+.expand-icon {
     font-size: 1.2rem;
-    color: darkgreen;
+    color: white; /* White icon color when collapsed */
     transition: transform 0.3s ease-in-out;
-  }
-  
-  .expense-chart-card.expanded .expand-icon {
+}
+
+.expense-chart-card.expanded .expand-icon,
+.expense-chart-card.expanded .chart-title {
+    color: darkgreen; /* Dark green text and icon when expanded */
+}
+
+.expense-chart-card.expanded .expand-icon {
     transform: rotate(180deg); /* Rotate the icon when expanded */
-  }
-  
-  .graph-container {
+}
+
+.graph-container {
     width: 100%;
     height: 400px; /* Ensure the graph container matches the height of other cards */
     padding-top: 20px;
-  }
-  
+}
