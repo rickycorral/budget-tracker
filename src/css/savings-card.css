@@ -1,0 +1,135 @@
+/* Container Styles */
+.savings-card {
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: max-height 0.3s ease, padding 0.3s ease, background-color 0.3s ease;
+    overflow: hidden;
+    max-height: 70px;
+    padding: 10px 20px;
+    position: relative;
+  }
+  
+  /* Expanded State */
+  .savings-card.expanded {
+    max-height: 1000px; /* Adjust based on content height */
+    padding: 20px;
+    background-color: rgba(0, 123, 255, 0.1);
+  }
+  
+  /* Collapsed Header Styles */
+  .savings-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+  }
+  
+  /* Header Styles when Collapsed */
+  .savings-card.collapsed .savings-card-header {
+    background-color: #0056b3; /* Dark blue */
+    color: #ffffff; /* White text */
+  }
+  
+  /* Header Styles when Expanded */
+  .savings-card.expanded .savings-card-header {
+    background-color: #9dd487; /* Light green similar to ExpenseCard */
+    color: #333333; /* Dark text */
+  }
+  
+  /* Frog Icon Styles */
+  .savings-card-header .fa-frog {
+    position: absolute;
+    left: 20px;
+    font-size: 24px;
+  }
+  
+  /* Expand/Collapse Icon Styles */
+  .savings-card-header .expand-icon {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Rotate Icon when Expanded */
+  .savings-card.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+  
+  /* Content Styles */
+  .savings-card-content {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Input Field Styles */
+  .savings-card .styled-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Button Styles */
+  .savings-card .savings-card-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .savings-card .savings-card-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Expense List Styles */
+  .expense-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .expense-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 16px;
+  }
+  
+  .expense-list li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Action Icon Styles */
+  .action-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.3s ease;
+  }
+  
+  .action-icon:hover {
+    color: #0056b3;
+  }
+  

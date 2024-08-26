@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import BudgetCard from "./BudgetCard";
 import ExpenseCard from "./ExpenseCard";
 import CategoryCard from "./CategoryCard";
+import SavingsCard from "./SavingsCard";
 import ExpenseChart from "./ExpenseChart";
-import "../css/main.css";
 import Header from "./Header";
+import "../css/main.css";
 
 export interface ExpenseCategory {
   name: string;
@@ -28,16 +29,19 @@ const Dashboard: React.FC = () => {
   const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
     () => {
       const savedCategories = localStorage.getItem("expenseCategories");
-      return savedCategories ? JSON.parse(savedCategories) : [
-        { name: "Renta", budget: null, expenses: [] },
-        { name: "Alimentos", budget: null, expenses: [] },
-        { name: "Transporte", budget: null, expenses: [] },
-        { name: "Servicios", budget: null, expenses: [] },
-        { name: "Entretenimiento", budget: null, expenses: [] },
-        { name: "Medicinas", budget: null, expenses: [] },
-        { name: "Escuela", budget: null, expenses: [] },
-        { name: "Ahorros", budget: null, expenses: [] },
-      ];
+      return savedCategories
+        ? JSON.parse(savedCategories)
+        : [
+            { name: "Ahorros", budget: null, expenses: [] },
+            { name: "Renta", budget: null, expenses: [] },
+            { name: "Alimentos", budget: null, expenses: [] },
+            { name: "Transporte", budget: null, expenses: [] },
+            { name: "Servicios", budget: null, expenses: [] },
+            { name: "Entretenimiento", budget: null, expenses: [] },
+            { name: "Medicinas", budget: null, expenses: [] },
+            { name: "Escuela", budget: null, expenses: [] },
+            { name: "Mascota", budget: null, expenses: [] },
+          ];
     }
   );
 
@@ -58,25 +62,12 @@ const Dashboard: React.FC = () => {
     0
   );
 
-  const handleAddExpense = () => {
-    const expenseValue = parseFloat(expenseInput);
-    if (isNaN(expenseValue) || expenseValue <= 0) {
-      alert("Por favor ingrese un monto de gasto válido y positivo.");
-      return;
-    }
-
+  const handleAddExpense = (newExpense: { amount: number; description: string; date: string }) => {
     const updatedCategories = expenseCategories.map((category) => {
       if (category.name === selectedCategory) {
         return {
           ...category,
-          expenses: [
-            ...category.expenses,
-            {
-              amount: expenseValue,
-              description: descriptionInput,
-              date: dateInput || new Date().toLocaleDateString(),
-            },
-          ],
+          expenses: [...category.expenses, newExpense],
         };
       }
       return category;
@@ -84,6 +75,19 @@ const Dashboard: React.FC = () => {
 
     setExpenseCategories(updatedCategories);
     resetExpenseForm();
+  };
+
+  const wrapperHandleAddExpense = () => {
+    if (expenseInput && descriptionInput && selectedCategory !== "Selecciona la Categoría") {
+      const newExpense = {
+        amount: parseFloat(expenseInput),
+        description: descriptionInput,
+        date: dateInput || new Date().toLocaleDateString(),
+      };
+      handleAddExpense(newExpense);
+    } else {
+      alert("Please fill in all fields before adding an expense.");
+    }
   };
 
   const resetExpenseForm = () => {
@@ -127,9 +131,7 @@ const Dashboard: React.FC = () => {
       if (idx === categoryIndex) {
         return {
           ...category,
-          expenses: category.expenses.filter(
-            (_, expIdx) => expIdx !== expenseIndex
-          ),
+          expenses: category.expenses.filter((_, expIdx) => expIdx !== expenseIndex),
         };
       }
       return category;
@@ -152,10 +154,7 @@ const Dashboard: React.FC = () => {
     setExpenseCategories(updatedCategories);
   };
 
-  const calculatePercentage = (
-    amount: number,
-    budget: number | null
-  ): number => {
+  const calculatePercentage = (amount: number, budget: number | null): number => {
     return budget && budget > 0 ? (amount / budget) * 100 : 0;
   };
 
@@ -184,35 +183,45 @@ const Dashboard: React.FC = () => {
           setDescriptionInput={setDescriptionInput}
           setDateInput={setDateInput}
           setSelectedCategory={setSelectedCategory}
-          handleAddExpense={handleAddExpense}
-          handleSaveEditedExpense={handleSaveEditedExpense} 
+          handleAddExpense={wrapperHandleAddExpense} 
+          handleSaveEditedExpense={handleSaveEditedExpense}
           editingExpense={editingExpense}
           expenseCategories={expenseCategories}
         />
       </div>
+
+
+      <SavingsCard
+        budget={expenseCategories[0].budget}
+        expenses={expenseCategories[0].expenses}
+        handleAddExpense={wrapperHandleAddExpense} 
+        handleEditExpense={(index) => handleEditExpense(0, index)}
+        handleDeleteExpense={(index) => handleDeleteExpense(0, index)}
+        handleSetBudget={(budget) => handleSetBudget(0, budget)}
+      />
       
       <div className="grid grid-cols-2 gap-4 mt-4">
-        {expenseCategories.map((category, index) => (
+        {expenseCategories.slice(1).map((category, index) => (
           <CategoryCard
-          key={index}
-          category={category}
-          calculatePercentage={(amount, budget) =>
-            calculatePercentage(amount, budget)
-          }
-          handleSetBudget={(budgetValue) =>
-            handleSetBudget(index, budgetValue)
-          }
-          handleEditExpense={(expenseIndex) =>
-            handleEditExpense(index, expenseIndex)
-          }
-          handleDeleteExpense={(expenseIndex) =>
-            handleDeleteExpense(index, expenseIndex)
-          }
-          cardColor="bg-green-200"
-        />
-        
+            key={index}
+            category={category}
+            calculatePercentage={(amount, budget) =>
+              calculatePercentage(amount, budget)
+            }
+            handleSetBudget={(budgetValue) =>
+              handleSetBudget(index + 1, budgetValue)
+            }
+            handleEditExpense={(expenseIndex) =>
+              handleEditExpense(index + 1, expenseIndex)
+            }
+            handleDeleteExpense={(expenseIndex) =>
+              handleDeleteExpense(index + 1, expenseIndex)
+            }
+            cardColor="bg-green-200"
+          />
         ))}
       </div>
+
 
       <div className="graph-section mt-4">
         <ExpenseChart
