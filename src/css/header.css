@@ -18,9 +18,16 @@ header {
 
 header .logo {
     position: absolute;
-    right: 20px; /* Move the logo to the right side */
+    right: 20px; /* Keep the logo on the right side */
     height: 40px;
+    cursor: pointer; /* Show a pointer cursor to indicate it's clickable */
+    transition: transform 0.2s ease-in-out;
 }
+
+header .logo:hover {
+    transform: scale(1.1); /* Slightly enlarge the logo when hovered */
+}
+
 
 header .title {
     flex-grow: 1;

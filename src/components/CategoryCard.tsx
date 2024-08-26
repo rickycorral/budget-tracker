@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faEdit, faTrashAlt, faArrowRight, faHome, faCar, faUtensils, faBook, faCapsules, faPiggyBank, faBolt, faTv } from "@fortawesome/free-solid-svg-icons";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import "../css/category-card.css"; // Ensure the CSS file is correctly imported
 
 interface Expense {
   amount: number;
@@ -39,6 +38,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   const totalExpense = category.expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const percentageSpent = calculatePercentage(totalExpense, category.budget);
+
+  const getFontColor = (percentage: number) => {
+    if (percentage <= 50) {
+      return `#2c7a7b`; // Dark green
+    } else if (percentage <= 75) {
+      return `#66bb6a`; // Lighter green
+    } else if (percentage <= 90) {
+      return `#a5d6a7`; // Pale green
+    } else {
+      return `#dcedc8`; // Lightest green
+    }
+  };
 
   const handleWalletClick = () => {
     setArrowVisible(false);
@@ -76,7 +87,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     <div className={`category-card ${cardColor}`}>
       <div className="category-card-header" onClick={toggleExpand}>
         <h3>
-          <FontAwesomeIcon icon={getCategoryIcon(category.name)} className="category-icon" />
+          <FontAwesomeIcon icon={getCategoryIcon(category.name)} style={{ marginRight: '1px' }} />
           {category.name}
         </h3>
         <div className="category-card-actions">
@@ -118,11 +129,15 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 icon={faEdit}
                 title="Editar Gasto"
                 className="action-icon expense-edit-icon"
+                onClick={() => handleEditExpense(index)}
+                style={{ marginLeft: '10px', cursor: 'pointer', color: 'blue', fontSize: '.8rem' }}
               />
               <FontAwesomeIcon
                 icon={faTrashAlt}
                 title="Eliminar Gasto"
                 className="action-icon expense-delete-icon"
+                onClick={() => handleDeleteExpense(index)}
+                style={{ marginLeft: '5px', cursor: 'pointer', color: 'red', fontSize: '.8rem' }}
               />
             </div>
           ))}
@@ -133,6 +148,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           className="progress-bar"
           style={{
             width: `${percentageSpent}%`,
+            background: `linear-gradient(90deg, #a8e6cf, #2c7a7b)`,
+            color: getFontColor(percentageSpent),
+            transition: 'all 0.5s ease',
           }}
         >
           <span className="progress-text">
@@ -141,7 +159,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         </div>
       </div>
       {percentageSpent > 75 && (
-        <p className="category-card-alert">
+        <p
+          className="category-card-alert"
+          style={{
+            color: getFontColor(percentageSpent),
+            fontSize: '0.9rem',
+            padding: '5px 10px',
+            backgroundColor: 'rgba(157, 212, 135, 0.2)', // Light transparent green background
+            borderRadius: '5px',
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+            transition: 'background-color 0.3s ease, color 0.3s ease',
+          }}
+        >
           Cuidado! Has superado el {percentageSpent.toFixed(2)}%!
         </p>
       )}
