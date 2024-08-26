@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "../css/budget-card.css"; // Ensure the CSS file is correctly imported
@@ -8,7 +8,7 @@ interface BudgetCardProps {
   monthlyBudget: number | null;
   monthlyBudgetInput: string;
   setMonthlyBudgetInput: (value: string) => void;
-  setMonthlyBudget: (value: number | null) => void; // Allow null for the budget value
+  setMonthlyBudget: (value: number | null) => void;
   setIsEditingBudget: (value: boolean) => void;
 }
 
@@ -20,48 +20,60 @@ const BudgetCard: React.FC<BudgetCardProps> = ({
   setMonthlyBudget,
   setIsEditingBudget,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false); // Set initial state to collapsed
-
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
+  const handleSaveBudget = () => {
+    const budgetValue = parseFloat(monthlyBudgetInput);
+    if (!isNaN(budgetValue) && budgetValue > 0) {
+      setMonthlyBudget(budgetValue);
+    } else {
+      setMonthlyBudget(null);
+      alert("Por favor ingrese un presupuesto mensual válido.");
+    }
+    setIsEditingBudget(false);
   };
 
+  // Format the budget value as currency
+  const formatCurrency = (value: number | null) => {
+    if (value === null) return "$0.00 MXN";
+    const formattedValue = new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+
+    // Remove the currency symbol and append MXN to the end
+    return formattedValue.replace('MXN', '').trim() + " MXN";
+};
+
+
   return (
-    <div className={`budget-card ${isExpanded ? "expanded" : "collapsed"}`}>
-      <div className="budget-card-header" onClick={toggleExpand}>
+    <div className={`budget-card ${isEditingBudget ? 'expanded' : 'collapsed'}`}>
+      <div className="budget-card-header" onClick={() => setIsEditingBudget(!isEditingBudget)}>
         Presupuesto Mensual
-        <FontAwesomeIcon
-          icon={isExpanded ? faChevronUp : faChevronDown}
-          className="expand-icon"
-        />
+        <FontAwesomeIcon icon={isEditingBudget ? faChevronUp : faChevronDown} className="expand-icon" />
       </div>
-      {isExpanded && (
+      {isEditingBudget ? (
         <div className="budget-card-content">
-          <p className="text-2xl font-bold">
-            ${monthlyBudget !== null ? monthlyBudget.toFixed(2) : "0.00 MXN"}
-          </p>
-          {isEditingBudget ? (
-            <>
-              <input
-                type="number"
-                value={monthlyBudgetInput}
-                onChange={(e) => setMonthlyBudgetInput(e.target.value)}
-                className="budget-input"
-                placeholder="Ingrese el límite del presupuesto mensual"
-              />
-              <button onClick={() => setIsEditingBudget(false)} className="budget-button">
-                Guardar Presupuesto
-              </button>
-            </>
-          ) : (
-            <button onClick={() => setIsEditingBudget(true)} className="budget-button">
-              Establecer Presupuesto
-            </button>
-          )}
+          <input
+            type="text"
+            inputMode="numeric" // Display numeric keyboard
+            pattern="[0-9]*"     // Only allow numbers
+            value={monthlyBudgetInput}
+            onChange={(e) => setMonthlyBudgetInput(e.target.value)}
+            className="budget-input"
+            placeholder="Ingrese el límite del presupuesto mensual"
+          />
+          <button onClick={handleSaveBudget} className="budget-button">
+            Guardar Presupuesto
+          </button>
         </div>
+      ) : (
+        <p className="budget-total">
+          {formatCurrency(monthlyBudget)}
+        </p>
       )}
     </div>
   );
 };
 
-export default React.memo(BudgetCard);
+export default BudgetCard;

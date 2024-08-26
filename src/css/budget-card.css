@@ -1,28 +1,40 @@
 /* BudgetCard Styling */
 .budget-card {
-    background-color: rgba(157, 212, 135, 0.8); /* Default background color */
-    padding: 10px 20px; /* Reduced padding */
+    background-color: rgba(157, 212, 135, 0.8);
+    padding: 10px 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px auto; /* Add margin on the sides and center the card */
+    margin: 10px auto;
     color: #333;
     cursor: pointer;
-    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Added color transition */
     overflow: hidden;
-    max-height: 70px; /* Set an appropriate height to indicate the card can expand */
+    max-height: 100px;
     opacity: 1;
-    max-width: 90%; /* Make the card narrower */
+    max-width: 99%;
 }
 
 .budget-card.expanded {
-    max-height: 500px; /* Adjust based on the content height */
+    max-height: 500px;
     padding: 20px;
-    opacity: 1; /* Full opacity when expanded */
-    background-color: rgba(157, 212, 135, 0.8); /* Revert to default background when expanded */
+    opacity: 1;
+    background-color: rgba(157, 212, 135, 0.8);
+}
+
+.budget-card.expanded .budget-total {
+    color: darkgreen; /* Change the font color to dark green when expanded */
+}
+
+.budget-card.expanded .budget-card-header {
+    color: darkgreen; /* Change the header text color to dark green when expanded */
 }
 
 .budget-card.collapsed {
-    background-color: darkgreen; /* Apply dark green background when collapsed */
+    background-color: darkgreen;
+}
+
+.budget-card.collapsed .budget-card-header {
+    color: white; /* Keep the header text color white when collapsed */
 }
 
 .budget-card-header {
@@ -31,8 +43,8 @@
     justify-content: center;
     font-size: 20px;
     font-weight: bold;
-    color: white; /* White text color to contrast with dark green background */
     position: relative;
+    transition: color 0.3s ease; /* Add a smooth transition for the text color */
 }
 
 .expand-icon {
@@ -47,4 +59,49 @@
     flex-direction: column;
     gap: 10px;
     padding-top: 10px;
+}
+
+.budget-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.budget-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.budget-button:hover {
+    background-color: #45a049;
+}
+
+.budget-total {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #2e7d32, #66bb6a);
+    border-radius: 12px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #4caf50;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
