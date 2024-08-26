@@ -194,23 +194,23 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-2 gap-4 mt-4">
         {expenseCategories.map((category, index) => (
           <CategoryCard
-            key={index}
-            category={category}
-            calculatePercentage={(amount, budget) =>
-              calculatePercentage(amount, budget)
-            }
-            alertThreshold={80}
-            handleSetBudget={(budgetValue) =>
-              handleSetBudget(index, budgetValue)
-            }
-            handleEditExpense={(expenseIndex) =>
-              handleEditExpense(index, expenseIndex)
-            }
-            handleDeleteExpense={(expenseIndex) =>
-              handleDeleteExpense(index, expenseIndex)
-            }
-            cardColor="bg-green-200"
-          />
+          key={index}
+          category={category}
+          calculatePercentage={(amount, budget) =>
+            calculatePercentage(amount, budget)
+          }
+          handleSetBudget={(budgetValue) =>
+            handleSetBudget(index, budgetValue)
+          }
+          handleEditExpense={(expenseIndex) =>
+            handleEditExpense(index, expenseIndex)
+          }
+          handleDeleteExpense={(expenseIndex) =>
+            handleDeleteExpense(index, expenseIndex)
+          }
+          cardColor="bg-green-200"
+        />
+        
         ))}
       </div>
 

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faEdit, faTrashAlt, faArrowRight, faHome, faCar, faUtensils, faBook, faCapsules, faPiggyBank, faBolt, faTv } from "@fortawesome/free-solid-svg-icons";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import "../css/category-card.css"; // Ensure the CSS file is correctly imported
 
 interface Expense {
   amount: number;
@@ -21,7 +22,6 @@ interface CategoryCardProps {
   handleEditExpense: (expenseIndex: number) => void;
   handleDeleteExpense: (expenseIndex: number) => void;
   calculatePercentage: (amount: number, budget: number | null) => number;
-  alertThreshold: number;
   handleSetBudget: (budgetValue: number) => void;
   cardColor: string;
 }
@@ -31,33 +31,22 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   handleEditExpense,
   handleDeleteExpense,
   calculatePercentage,
-  alertThreshold,
   handleSetBudget,
   cardColor,
 }) => {
-  const [arrowVisible, setArrowVisible] = useState(true); // State to control arrow and text visibility
-  const [isExpanded, setIsExpanded] = useState(false); // State to control expansion
+  const [arrowVisible, setArrowVisible] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const totalExpense = category.expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const percentageSpent = calculatePercentage(totalExpense, category.budget);
 
-  const getGradientColor = (percentage: number) => {
-    if (percentage <= 50) {
-      return `linear-gradient(to right, darkgreen, yellow ${percentage * 2}%)`;
-    } else if (percentage <= 75) {
-      return `linear-gradient(to right, darkgreen, yellow 50%, orange ${percentage * 2 - 100}%)`;
-    } else {
-      return `linear-gradient(to right, darkgreen, yellow 50%, orange 75%, red ${percentage - 75}%)`;
-    }
-  };
-
   const handleWalletClick = () => {
-    setArrowVisible(false); // Hide the arrow and text when the wallet button is clicked
-    handleSetBudget(Number(prompt("Nuevo presupuesto:"))); // Prompt for a new budget
+    setArrowVisible(false);
+    handleSetBudget(Number(prompt("Nuevo presupuesto:")));
   };
 
   const toggleExpand = () => {
-    setIsExpanded(!isExpanded); // Toggle the expansion state
+    setIsExpanded(!isExpanded);
   };
 
   const getCategoryIcon = (name: string) => {
@@ -79,7 +68,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       case "Ahorros":
         return faPiggyBank;
       default:
-        return faWallet; // Fallback icon
+        return faWallet;
     }
   };
 
@@ -87,8 +76,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     <div className={`category-card ${cardColor}`}>
       <div className="category-card-header" onClick={toggleExpand}>
         <h3>
-          <FontAwesomeIcon icon={getCategoryIcon(category.name)} style={{ marginRight: '1px' }} /> {/* Reduced margin */}
-          {category.name} {/* Category Name */}
+          <FontAwesomeIcon icon={getCategoryIcon(category.name)} className="category-icon" />
+          {category.name}
         </h3>
         <div className="category-card-actions">
           {arrowVisible && (
@@ -96,7 +85,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
               <span className="budget-text">Ingresa tu Presupuesto</span>
               <FontAwesomeIcon
                 icon={faArrowRight}
-                className="action-icon arrow-icon" /* Adding the arrow-icon class */
+                className="action-icon arrow-icon"
               />
             </>
           )}
@@ -104,15 +93,15 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             icon={faWallet}
             title="Editar Presupuesto"
             className="action-icon"
-            onClick={handleWalletClick} // Handle the wallet click
+            onClick={handleWalletClick}
           />
-          <span className="expand-indicator">{isExpanded ? '▲' : '▼'}</span> {/* Expand/Collapse Indicator */}
+          <span className="expand-indicator">{isExpanded ? '▲' : '▼'}</span>
         </div>
       </div>
       {isExpanded && (
         <div className="category-card-details">
           <p className="category-card-total">
-            Total Gasto: ${totalExpense.toFixed(2)}
+            Gastado: ${totalExpense.toFixed(2)}
           </p>
           <p className="text-sm">
             Presupuesto: ${category.budget?.toFixed(2)}
@@ -124,20 +113,16 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           {category.expenses.map((expense, index) => (
             <div key={index} className="expense-item">
               <span>${expense.amount.toFixed(2)}</span> - <span>{expense.description}</span> - 
-              <span>{format(new Date(expense.date), 'd/MMM', { locale: es })}</span> {/* Format date */}
+              <span>{format(new Date(expense.date), 'd/MMM', { locale: es })}</span>
               <FontAwesomeIcon
                 icon={faEdit}
                 title="Editar Gasto"
                 className="action-icon expense-edit-icon"
-                onClick={() => handleEditExpense(index)}
-                style={{ marginLeft: '10px', cursor: 'pointer', color: 'blue', fontSize: '.8rem' }} // Smaller size and blue color
               />
               <FontAwesomeIcon
                 icon={faTrashAlt}
                 title="Eliminar Gasto"
                 className="action-icon expense-delete-icon"
-                onClick={() => handleDeleteExpense(index)}
-                style={{ marginLeft: '5px', cursor: 'pointer', color: 'red', fontSize: '.8rem' }} // Smaller size and red color
               />
             </div>
           ))}
@@ -148,17 +133,16 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           className="progress-bar"
           style={{
             width: `${percentageSpent}%`,
-            background: getGradientColor(percentageSpent),
           }}
         >
           <span className="progress-text">
-            {percentageSpent.toFixed(2)}% Gastado
+            {percentageSpent.toFixed(2)}%
           </span>
         </div>
       </div>
-      {percentageSpent > alertThreshold && (
+      {percentageSpent > 75 && (
         <p className="category-card-alert">
-          ¡Advertencia: Ha superado el {alertThreshold}% de su presupuesto!
+          Cuidado! Has superado el {percentageSpent.toFixed(2)}%!
         </p>
       )}
     </div>

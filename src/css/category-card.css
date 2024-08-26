@@ -9,20 +9,20 @@
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
-  }
+}
   
-  .expand-indicator {
+.expand-indicator {
     font-size: 1.2rem;
     color: darkgreen;
     margin-left: 10px;
     transition: transform 0.3s ease-in-out;
-  }
+}
   
-  .category-card.expanded .expand-indicator {
+.category-card.expanded .expand-indicator {
     transform: rotate(180deg);
-  }
+}
   
-  .category-card-header {
+.category-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,47 +31,180 @@
     padding-top: 20px;
     margin-bottom: 1px;
     color: darkgreen;
-  }
+}
+
+.category-icon {
+    margin-right: 5px;
+}
   
-  .category-card-actions {
+.category-card-actions {
     display: flex;
     gap: 10px;
     position: absolute;
-    top: 10px;
-    right: 10px;
-  }
+    align-items: center;
+    top: 5px;
+    right: 15px;
+}
+
+.category-card-actions .fa-wallet {
+    margin-right: -10px; /* Move the wallet icon slightly to the right */
+}
   
-  .category-card-details {
-    text-align: left;
-    margin-top: 1px;
-  }
-  
-  .category-card-alert {
-    color: red;
+.category-card-details {
+    text-align: center; /* Center the text */
+    margin-top: 10px; /* Add some space at the top */
+}
+
+.category-card-details .text-sm {
+    display: inline-block; /* Ensure the box is only as wide as the content */
+    font-size: .75rem; /* Increase font size for better readability */
+    font-weight: bold; /* Make the text bold */
+    color: darkgreen; /* Set the text color to a dark green */
+    padding: 8px 15px; /* Add padding for space around the text */
+    background-color: rgba(157, 212, 135, 0.5); /* Light transparent green background */
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+    margin-top: 10px; /* Space above the box */
+    margin-left: auto; /* Center align */
+    margin-right: auto; /* Center align */
+    max-width: 100%; /* Ensure the box doesn't become too wide */
+}
+
+
+.category-card-alert {
+    color: white;
     font-weight: bold;
-    margin-top: 5px;
-  }
-  
-  .total-gastos-container {
+    margin-top: 10px;
+    text-align: center;
+    background-color: rgba(157, 212, 135, 0.2);
+    padding: 5px 15px; /* Increased padding for a wider box */
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 0.8rem; /* Slightly larger font size */
+    animation: gradientTextAlertLoop 12s infinite; /* Lengthened the duration for a smoother loop */
+    width: 100%; /* Ensure it takes full width */
+    max-width: 450px; /* Set a max-width for better alignment */
+    margin-left: auto; /* Center align */
+    margin-right: auto; /* Center align */
+}
+
+@keyframes gradientTextAlertLoop {
+    0% {
+        color: #FFFF00; /* Yellow */
+    }
+    15% {
+        color: #FFD700; /* Light Orange */
+    }
+    30% {
+        color: #FFA500; /* Orange */
+    }
+    45% {
+        color: #FF4500; /* Orange Red */
+    }
+    60% {
+        color: #FF0000; /* Red */
+    }
+    75% {
+        color: #8B0000; /* Dark Red */
+    }
+    90% {
+        color: #FF0000; /* Red */
+    }
+    100% {
+        color: #FFA500; /* Orange */
+    }
+    115% {
+        color: #FFD700; /* Light Orange */
+    }
+    130% {
+        color: #FFFF00; /* Yellow */
+    }
+}
+
+
+
+.total-gastos-container {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     margin-bottom: 15px;
-  }
+}
   
-  .category-card-total {
+.category-card-total {
     font-size: 1rem;
     font-weight: bold;
-    color: darkgreen;
+    color: rgb(26, 114, 26);
     text-align: center;
     padding: 5px 10px;
-    background-color: #e3f8da;
+    background-color: rgba(157, 212, 135, 0.2);
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     flex-grow: 1;
-    max-width: 300px;
+    max-width: 200px;
     width: auto;
     margin: 0 auto;
-  }
-  
+}
+
+/* Progress Bar Styling */
+.progress-bar-container {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 25px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(90deg, #a8e6cf, #2c7a7b);
+}
+
+.progress-text {
+    z-index: 2;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.expense-item .action-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: .8rem;
+}
+
+.expense-edit-icon {
+    color: blue;
+}
+
+.expense-delete-icon {
+    color: red;
+}
+
+.arrow-icon {
+    animation: arrow-wiggle 1s ease-in-out infinite;
+}
+
+@keyframes arrow-wiggle {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+}
