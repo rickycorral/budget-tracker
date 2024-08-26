@@ -201,26 +201,27 @@ const Dashboard: React.FC = () => {
       />
       
       <div className="grid grid-cols-2 gap-4 mt-4">
-        {expenseCategories.slice(1).map((category, index) => (
-          <CategoryCard
-            key={index}
-            category={category}
-            calculatePercentage={(amount, budget) =>
-              calculatePercentage(amount, budget)
-            }
-            handleSetBudget={(budgetValue) =>
-              handleSetBudget(index + 1, budgetValue)
-            }
-            handleEditExpense={(expenseIndex) =>
-              handleEditExpense(index + 1, expenseIndex)
-            }
-            handleDeleteExpense={(expenseIndex) =>
-              handleDeleteExpense(index + 1, expenseIndex)
-            }
-            cardColor="bg-green-200"
-          />
-        ))}
-      </div>
+  {expenseCategories.slice(1).map((category, index) => (
+    <CategoryCard
+      key={index + 1}  // Adjust the key to match the correct index
+      category={category}
+      calculatePercentage={(amount, budget) =>
+        calculatePercentage(amount, budget)
+      }
+      handleSetBudget={(budgetValue) =>
+        handleSetBudget(index + 1, budgetValue)  // Correct the index for budget handling
+      }
+      handleEditExpense={(expenseIndex) =>
+        handleEditExpense(index + 1, expenseIndex)  // Correct the index for editing expense
+      }
+      handleDeleteExpense={(expenseIndex) =>
+        handleDeleteExpense(index + 1, expenseIndex)  // Correct the index for deleting expense
+      }
+      cardColor="bg-green-200"
+    />
+  ))}
+</div>
+
 
 
       <div className="graph-section mt-4">
