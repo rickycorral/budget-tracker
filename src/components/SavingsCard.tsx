@@ -39,8 +39,8 @@ const SavingsCard: React.FC<SavingsCardProps> = ({
   };
 
   const onAddExpense = () => {
-    if (!amount || !description) {
-      alert("Por favor, completa todos los campos.");
+    if (!amount || isNaN(parseFloat(amount)) || !description || !date) {
+      alert("Por favor, completa todos los campos correctamente.");
       return;
     }
 
@@ -98,9 +98,10 @@ const SavingsCard: React.FC<SavingsCardProps> = ({
             Agregar Ahorro
           </button>
 
+          {/* List of savings */}
           <ul className="expense-list">
             {expenses.map((expense, index) => (
-              <li key={index}>
+              <li key={index} className="expense-item">
                 <span>{expense.description}</span>
                 <span>${expense.amount.toFixed(2)}</span>
                 <span>{new Date(expense.date).toLocaleDateString()}</span>

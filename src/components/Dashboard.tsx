@@ -90,6 +90,14 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const wrapperHandleAddSavings = (newExpense: { amount: number; description: string; date: string }) => {
+    if (newExpense.amount && newExpense.description && newExpense.date) {
+      handleAddExpense(newExpense);
+    } else {
+      alert("Please fill in all fields before adding a savings.");
+    }
+  };
+
   const resetExpenseForm = () => {
     setExpenseInput("");
     setDescriptionInput("");
@@ -194,35 +202,33 @@ const Dashboard: React.FC = () => {
       <SavingsCard
         budget={expenseCategories[0].budget}
         expenses={expenseCategories[0].expenses}
-        handleAddExpense={wrapperHandleAddExpense} 
+        handleAddExpense={wrapperHandleAddSavings}  // Updated line
         handleEditExpense={(index) => handleEditExpense(0, index)}
         handleDeleteExpense={(index) => handleDeleteExpense(0, index)}
         handleSetBudget={(budget) => handleSetBudget(0, budget)}
       />
       
       <div className="grid grid-cols-2 gap-4 mt-4">
-  {expenseCategories.slice(1).map((category, index) => (
-    <CategoryCard
-      key={index + 1}  // Adjust the key to match the correct index
-      category={category}
-      calculatePercentage={(amount, budget) =>
-        calculatePercentage(amount, budget)
-      }
-      handleSetBudget={(budgetValue) =>
-        handleSetBudget(index + 1, budgetValue)  // Correct the index for budget handling
-      }
-      handleEditExpense={(expenseIndex) =>
-        handleEditExpense(index + 1, expenseIndex)  // Correct the index for editing expense
-      }
-      handleDeleteExpense={(expenseIndex) =>
-        handleDeleteExpense(index + 1, expenseIndex)  // Correct the index for deleting expense
-      }
-      cardColor="bg-green-200"
-    />
-  ))}
-</div>
-
-
+        {expenseCategories.slice(1).map((category, index) => (
+          <CategoryCard
+            key={index + 1}
+            category={category}
+            calculatePercentage={(amount, budget) =>
+              calculatePercentage(amount, budget)
+            }
+            handleSetBudget={(budgetValue) =>
+              handleSetBudget(index + 1, budgetValue)
+            }
+            handleEditExpense={(expenseIndex) =>
+              handleEditExpense(index + 1, expenseIndex)
+            }
+            handleDeleteExpense={(expenseIndex) =>
+              handleDeleteExpense(index + 1, expenseIndex)
+            }
+            cardColor="bg-green-200"
+          />
+        ))}
+      </div>
 
       <div className="graph-section mt-4">
         <ExpenseChart
