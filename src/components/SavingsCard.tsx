@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrashAlt,
-  faChevronDown,
-  faFrog,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFrog, faChevronDown, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import "../css/savings-card.css";
 
 interface Expense {
@@ -21,21 +16,28 @@ interface SavingsCardProps {
   handleEditExpense: (index: number) => void;
   handleDeleteExpense: (index: number) => void;
   handleSetBudget: (budget: number) => void;
+  onClick?: () => void;
 }
 
 const SavingsCard: React.FC<SavingsCardProps> = ({
+  budget,
   expenses,
   handleAddExpense,
   handleEditExpense,
   handleDeleteExpense,
+  handleSetBudget,
+  onClick,
 }) => {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const [isJumping, setIsJumping] = useState(false);
 
   const toggleExpand = () => {
     setExpanded((prev) => !prev);
+    setIsJumping(true);
+    setTimeout(() => setIsJumping(false), 1000);
   };
 
   const onAddExpense = () => {
@@ -57,10 +59,19 @@ const SavingsCard: React.FC<SavingsCardProps> = ({
   };
 
   return (
-    <div className={`savings-card ${expanded ? "expanded" : "collapsed"}`}>
-      <div className="savings-card-header" onClick={toggleExpand}>
-        <FontAwesomeIcon icon={faFrog} className="fa-frog" />
+    <div
+      className={`savings-card ${expanded ? "expanded" : "collapsed"}`}
+      onClick={() => {
+        toggleExpand();
+        if (onClick) onClick();
+      }}
+    >
+      <div className="savings-card-header">
         <span>Ahorros</span>
+        <FontAwesomeIcon
+          icon={faFrog}
+          className={`frog-icon ${isJumping ? "animate" : ""}`}
+        />
         <FontAwesomeIcon icon={faChevronDown} className="expand-icon" />
       </div>
 
@@ -98,7 +109,6 @@ const SavingsCard: React.FC<SavingsCardProps> = ({
             Agregar Ahorro
           </button>
 
-          {/* List of savings */}
           <ul className="expense-list">
             {expenses.map((expense, index) => (
               <li key={index} className="expense-item">

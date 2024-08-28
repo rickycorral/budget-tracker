@@ -1,29 +1,32 @@
 /* ExpenseCard Styling */
 .expense-card {
-    background-color: rgba(157, 212, 135, 0.8);
-    padding: 10px 20px; /* Reduced padding to ensure some visibility when collapsed */
-    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.8); /* Light red background */
+    padding: 0;
+    border-radius: 50%;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px; /* Margin at the bottom */
-    color: #333;
+    margin-bottom: 10px;
+    color: white;
     cursor: pointer;
-    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    transition: all 0.3s ease;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    max-height: 70px; /* Set an appropriate height to indicate the card can expand */
-    opacity: 1;
+    flex-shrink: 0;
+    margin-right: auto; /* Align to the left */
+    margin-left: 30px; /* Add spacing */
 }
 
 .expense-card.expanded {
-    max-height: 500px; /* Adjust based on the content height */
+    max-height: 500px;
     padding: 20px;
-    opacity: 1; /* Full opacity when expanded */
-}
-
-.expense-card.collapsed .expense-card-header {
-    background-color: darkgreen; /* Dark green background when collapsed */
-    color: white; /* Ensure the text color contrasts well */
-    padding: 10px;
-    border-radius: 5px;
+    background-color: rgba(220, 20, 60, 1); /* Solid red when expanded */
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    opacity: 1;
 }
 
 .expense-card-header {
@@ -32,79 +35,75 @@
     justify-content: center;
     font-size: 20px;
     font-weight: bold;
-    color: darkgreen;
+    color: white;
     position: relative;
+    text-align: center;
 }
 
-.expense-card-header.collapsed-header {
-    background-color: darkgreen; /* Dark green background when collapsed */
-    color: white; /* Text color when collapsed */
-}
-
-.expense-card-header .fa-frog {
+.expense-card .fa-frog {
     position: absolute;
-    left: 0;
-    margin-left: 8px; /* Space from the left edge */
+    top: 10px;
+    left: 10px;
     font-size: 1.5rem;
 }
 
-.expand-icon {
-    position: absolute;
-    right: 0;
-    margin-right: 25px;
-    font-size: 1.2rem;
-}
+/* Adjustments for smaller screens */
+@media (max-width: 767px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-.expense-card-content {
+    .expense-card, .savings-card {
+        margin-bottom: 20px;
+    }
+}
+/* Parent container for horizontal alignment */
+.card-container {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 10px;
+    justify-content: space-between; /* Space between the two cards */
+    align-items: center; /* Align cards vertically at the center */
+    margin: 20px 0; /* Add some margin to the top and bottom */
+    width: 100%; /* Ensure it takes the full width */
+    max-width: 600px; /* Constrain the container width for better alignment */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+}
+/* Shared Frog Icon Styling */
+.frog-icon {
+    font-size: 30px;
+    color: darkgreen;
+    position: relative; /* Relative positioning to center it */
+    margin-top: 10px; /* Space between text and icon */
+    display: block; /* Center the frog icon */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for the hover effect */
 }
 
-.expense-card:hover {
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+.frog-icon.animate {
+    animation: quickJump 1s ease-in-out;
 }
 
-.expense-card .form-row {
+/* Text and Icon Alignment */
+.expense-card-header,
+.savings-card-header {
     display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+    flex-direction: column; /* Stack text and icon vertically */
+    align-items: center; /* Center align text and icon */
+    justify-content: center; /* Center content */
 }
 
-.expense-card .form-row label {
-    flex: 1;
-    padding-right: 8px;
-    font-weight: bold;
+.frog-icon:hover {
+    transform: translateY(-10px); /* Slight upward movement on hover */
 }
 
-.expense-card .form-row input,
-.expense-card .form-row select {
-    flex: 2;
-    padding: 6px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    color: #333;
-    background-color: white;
-}
-
-.expense-card-button {
-    width: 100%;
-    margin-top: 8px;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.expense-card-button:hover {
-    background-color: #45a049;
+@keyframes quickJump {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-50px);
+    }
+    40% {
+      transform: translateY(0);
+    }
 }

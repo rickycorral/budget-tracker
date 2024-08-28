@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFrog, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import "../css/expense-card.css"; // Ensure the CSS file is correctly imported
+import "../css/expense-card.css";
+
+interface ExpenseCategory {
+  name: string;
+}
 
 interface ExpenseCardProps {
   totalExpenses: number;
   expenseInput: string;
-  setExpenseInput: (input: string) => void;
+  setExpenseInput: Dispatch<SetStateAction<string>>;
   descriptionInput: string;
-  setDescriptionInput: (input: string) => void;
+  setDescriptionInput: Dispatch<SetStateAction<string>>;
   dateInput: string;
-  setDateInput: (input: string) => void;
+  setDateInput: Dispatch<SetStateAction<string>>;
   selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
   handleAddExpense: () => void;
   handleSaveEditedExpense: () => void;
   editingExpense: { categoryIndex: number; expenseIndex: number } | null;
-  expenseCategories: { name: string }[];
+  expenseCategories: ExpenseCategory[];
+  onClick?: () => void;
 }
 
 const ExpenseCard: React.FC<ExpenseCardProps> = ({
@@ -33,18 +38,31 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({
   handleSaveEditedExpense,
   editingExpense,
   expenseCategories,
+  onClick,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false); // State to manage the expanded/collapsed state
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isJumping, setIsJumping] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
+    setIsJumping(true);
+    setTimeout(() => setIsJumping(false), 1000);
   };
 
   return (
-    <div className={`expense-card ${isExpanded ? "expanded" : "collapsed"}`}>
-      <div className={`expense-card-header ${isExpanded ? "" : "collapsed-header"}`} onClick={toggleExpand}>
-        <FontAwesomeIcon icon={faFrog} className="fa-frog" />
-        Agregar Gasto
+    <div
+      className={`expense-card ${isExpanded ? "expanded" : "collapsed"}`}
+      onClick={() => {
+        toggleExpand();
+        if (onClick) onClick();
+      }}
+    >
+      <div className="expense-card-header">
+        <span>Agregar Gasto</span>
+        <FontAwesomeIcon
+          icon={faFrog}
+          className={`frog-icon ${isJumping ? "animate" : ""}`}
+        />
         <FontAwesomeIcon
           icon={isExpanded ? faChevronUp : faChevronDown}
           className="expand-icon"

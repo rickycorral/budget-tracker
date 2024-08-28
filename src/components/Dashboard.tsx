@@ -25,6 +25,7 @@ const Dashboard: React.FC = () => {
     categoryIndex: number;
     expenseIndex: number;
   } | null>(null);
+  const [expandedCard, setExpandedCard] = useState<"expense" | "savings" | null>(null); // New state to track which card is expanded
 
   const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
     () => {
@@ -166,6 +167,14 @@ const Dashboard: React.FC = () => {
     return budget && budget > 0 ? (amount / budget) * 100 : 0;
   };
 
+  const handleCardClick = (cardType: "expense" | "savings") => {
+    if (expandedCard === cardType) {
+      setExpandedCard(null); // Collapse if the same card is clicked again
+    } else {
+      setExpandedCard(cardType); // Expand the clicked card and collapse the other
+    }
+  };
+
   return (
     <section className="dashboard-bg mt-4 p-4 rounded-lg shadow">
       <Header />
@@ -180,34 +189,40 @@ const Dashboard: React.FC = () => {
         />
       </div>
 
-      <div className="graph-and-expenses-container">
-        <ExpenseCard
-          totalExpenses={totalExpenses}
-          expenseInput={expenseInput}
-          descriptionInput={descriptionInput}
-          dateInput={dateInput}
-          selectedCategory={selectedCategory}
-          setExpenseInput={setExpenseInput}
-          setDescriptionInput={setDescriptionInput}
-          setDateInput={setDateInput}
-          setSelectedCategory={setSelectedCategory}
-          handleAddExpense={wrapperHandleAddExpense} 
-          handleSaveEditedExpense={handleSaveEditedExpense}
-          editingExpense={editingExpense}
-          expenseCategories={expenseCategories}
-        />
+      {/* Updated card rendering logic */}
+      <div className="card-container">
+        {expandedCard !== "savings" && (
+          <ExpenseCard
+            totalExpenses={totalExpenses}
+            expenseInput={expenseInput}
+            descriptionInput={descriptionInput}
+            dateInput={dateInput}
+            selectedCategory={selectedCategory}
+            setExpenseInput={setExpenseInput}
+            setDescriptionInput={setDescriptionInput}
+            setDateInput={setDateInput}
+            setSelectedCategory={setSelectedCategory}
+            handleAddExpense={wrapperHandleAddExpense}
+            handleSaveEditedExpense={handleSaveEditedExpense}
+            editingExpense={editingExpense}
+            expenseCategories={expenseCategories}
+            onClick={() => handleCardClick("expense")} // Handle click event
+          />
+        )}
+
+        {expandedCard !== "expense" && (
+          <SavingsCard
+            budget={expenseCategories[0].budget}
+            expenses={expenseCategories[0].expenses}
+            handleAddExpense={wrapperHandleAddSavings}
+            handleEditExpense={(index) => handleEditExpense(0, index)}
+            handleDeleteExpense={(index) => handleDeleteExpense(0, index)}
+            handleSetBudget={(budget) => handleSetBudget(0, budget)}
+            onClick={() => handleCardClick("savings")} // Handle click event
+          />
+        )}
       </div>
 
-
-      <SavingsCard
-        budget={expenseCategories[0].budget}
-        expenses={expenseCategories[0].expenses}
-        handleAddExpense={wrapperHandleAddSavings}  // Updated line
-        handleEditExpense={(index) => handleEditExpense(0, index)}
-        handleDeleteExpense={(index) => handleDeleteExpense(0, index)}
-        handleSetBudget={(budget) => handleSetBudget(0, budget)}
-      />
-      
       <div className="grid grid-cols-2 gap-4 mt-4">
         {expenseCategories.slice(1).map((category, index) => (
           <CategoryCard
