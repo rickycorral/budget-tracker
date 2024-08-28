@@ -5,7 +5,7 @@ import CategoryCard from "./CategoryCard";
 import SavingsCard from "./SavingsCard";
 import ExpenseChart from "./ExpenseChart";
 import Header from "./Header";
-import "../css/main.css";
+import "../css/main.css"; // Ensure main.css is correctly imported
 
 export interface ExpenseCategory {
   name: string;
@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
     categoryIndex: number;
     expenseIndex: number;
   } | null>(null);
-  const [expandedCard, setExpandedCard] = useState<"expense" | "savings" | null>(null); // New state to track which card is expanded
+  const [expandedCard, setExpandedCard] = useState<"expense" | "savings" | null>(null);
 
   const [expenseCategories, setExpenseCategories] = useState<ExpenseCategory[]>(
     () => {
